@@ -48,6 +48,9 @@
     <p id="points" style="display: inline; margin: 20px;">Oops! something went wrong while displaying this page. </p><a style = " white-space:nowrap; display: inline; margin: 20px;" id="coolstuff"href="account.html">Your Account</a>
     <script>
       peenis = localStorage.getItem("points")
+      if(peenis === null) {
+          peenis = 0;
+      }
       
       document.getElementById("points").innerHTML = "You have " + peenis + " points. " 
       
