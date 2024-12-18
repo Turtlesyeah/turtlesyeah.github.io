@@ -8,8 +8,8 @@
       username = localStorage.getItem("currentUsername");
       usernames = localStorage.getItem("usernames");
       if(usernames === null) {
-        localStorage.setItem("usernames", JSON.stringify([turtlesyeah]));
-        localStorage.setItem("passwords", JSON.stringify([iamanaxolotl]));
+        localStorage.setItem("usernames", JSON.stringify(["turtlesyeah"]));
+        localStorage.setItem("passwords", JSON.stringify(["iamanaxolotl"]));
       }
       else {}
       if(username === "" || username === null) {
