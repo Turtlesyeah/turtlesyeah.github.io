@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Multiplication - Math98</title>
+  <link rel="icon" type="image/x-icon" href="logo-removed-backround.png">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #6a0dad; /* Change to purple background color */
+      text-align: center;
+      padding: 50px;
+      background-image: url('backer2.png'); /* Added single quotes for the image URL */
+      background-size: 10000 px 10000 px;
+      background-repeat: repeat;
+      background-position: center;
+      font-color: white;
+    }
+    #sus {
+            max-width: 400px; /* Increase login part size */
+            margin: 0 auto;
+            background-color: #ffffff; /* Add white background to the login part */
+            padding: 20px; /* Add padding to the login part */
+            border-radius: 10px; /* Add border radius for rounded corners */
+        }
+    @keyframes example {
+      from {color: green;}
+      to {color: black;}
+    }
+    @keyframes example2 {
+      from {color: red;}
+      to {color: black;}
+    }    
+    #result {
+      animation: none;
+    }
+    .y, .x {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0; /* Increase margin for better spacing */
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      border-radius: 5px;
+      font-size: 20px;
+    }
+    .x {
+      background-color: gold; /* Change submit button to gold */
+      color: black; /* Change text color to black */
+      border: none;
+      cursor: pointer;
+    }
+    
+    .x:hover {
+      background-color: #ffdb58; /* Darken the gold color on hover */
+    }
+    .n {
+      width: 40%;
+      margin: 15px;
+    }
+    .gronk {
+        width: 5%;
+        height: 5%;
+        float: right;
+        margin: 5px;
+        opacity: 0.1;
+        
+        
+    }
+  </style>
+</head>
+<body>
+  <button class="x gronk" id="myBtn" onclick="baller()">❚❚</button>
+  <div id="sus">
+    <p id="timer">60</p>
+    <p id="question"></p>
+    <input class="y" id="myInput" placeholder="Type your answer here...">
+    <br><br><br><br>
+    <button class="x" id="submitBtn" onclick="checkAnswer()">Submit</button>
+    <script>
+    // Get the input field
+    document.getElementById("myInput").focus();
+    document.getElementById("myInput").select();
+    var input = document.getElementById("myInput");
+    input.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("submitBtn").click();
+        }
+      });
+    </script>
+    <br>
+    <p id="result"></p>
+    <script>
+      var randY, randX;
+      render();
+  
+      function render() {
+        randY = Math.floor(Math.random() * 10);
+        randX = Math.floor(Math.random() * 10);
+        let question = "What is " + randX + " x " + randY + "?";
+        document.getElementById("question").innerHTML = question;
+      }
+      let  count = 0;
+      let josh = [0];
+      var seconds = 1;
+      var peginus;
+      function interesting() {
+        timer.innerHTML = 60 - (seconds++);
+        peginus = document.getElementById("timer").innerHTML;
+        if (peginus === "0") {
+          // Sending page
+          const urlParams = new URLSearchParams(window.location.search);
+          const points = Number(localStorage.getItem("points"))
+          const jsonString = JSON.stringify(seconds);
+          const jsonString3 = JSON.stringify(points);
+          const jsonString2 = JSON.stringify(josh);
+          window.location.href = 'finished.html?data=' + encodeURIComponent(jsonString2) + "&seconds=" + encodeURIComponent(jsonString) + "&points=" + encodeURIComponent(jsonString3);
+        };
+      
+      };
+      poopoo = setInterval(interesting, 1000);
+      function checkAnswer() {
+        let answer = randX * randY;
+        let submission = parseInt(document.getElementById("myInput").value);
+        let result;
+        if (submission === answer) {
+          result = "Correct!";
+  
+          document.getElementById('result').style.animation = "none"; // Reset the animation
+          void document.getElementById('result').offsetWidth; // Trigger reflow to reset the animation
+          document.getElementById('result').style.animation = "example 3s"; // Reassign the animation
+          josh.push(1)
+        } else {
+          result = "Incorrect - the correct answer was " + answer;
+         document.getElementById('result').style.animation = "none"; // Reset the animation
+          void document.getElementById('result').offsetWidth; // Trigger reflow to reset the animation
+          document.getElementById('result').style.animation = "example2 3s"; // Reassign the animation
+          josh.push(0)
+        }
+        count += 1;
+        console.log("Count: " + count);
+  
+        document.getElementById("result").innerHTML = result;
+        document.getElementById("myInput").value = "";
+  
+        render();
+        document.getElementById("progress-bar").style.width = 5000 * (count / 15)
+      }
+      var peepee = false;
+      function baller() {
+        if(peepee === false) {
+          clearInterval(poopoo);
+          document.getElementById("myBtn").innerHTML = "▶";
+          peepee = true;
+          document.getElementById("submitBtn").disabled = true;
+          document.getElementById('myInput').value = "";
+          document.getElementById("myInput").disabled = true;
+          
+        }
+        else {
+          poopoo = setInterval(interesting, 1000);
+          document.getElementById("myBtn").innerHTML = "❚❚";
+          peepee = false;
+          document.getElementById("submitBtn").disabled = false;
+          document.getElementById("myInput").disabled = false;
+          document.getElementById("myInput").focus();
+          document.getElementById("myInput").select();
+          interesting()
+        }
+
+      }
+    </script>
+  </div>
+</body>
+</html>

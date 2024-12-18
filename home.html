@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Home - math98</title>
+    <link rel="icon" type="image/x-icon" href="logo-removed-backround.png">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #6a0dad; /* Change to purple background color */
+        text-align: center;
+        padding: 50px;
+        background-image: url(backing1-min.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+            
+        background-attachment: fixed;
+      }
+
+      .centered-image {
+        display: block;
+        margin: 0 auto;
+      }
+      .sus {
+        max-width: 958px; /* Increase login part size */
+        margin: 0 auto;
+        background-color: #ffffff; /* Add white background to the login part */
+        
+         
+        padding-bottom: 10px; 
+        border-radius: 50px; /* Add border radius for rounded corners */
+        
+      }
+    </style>
+</head>
+<body>
+  <div class="sus">
+    <h1 style = "display: block; margin: 0 auto;">Home</h1>
+    <img src="homer-min.png" usemap="#homerMap" max-width="100%" height="592" class="centered-image" style="border: 5px solid #ffdb58; border-radius: 50px; margin-bottom: 10px;">
+    <map name="homerMap">
+      <area target="_self" alt="multiplication" title="multiplication" href="math98xtest.html" coords="630,147,807,141,857,185,858,206,629,212,629,171" shape="poly">
+      <area target="_self" alt="addition" title="addition" href="error.html" coords="53,532,374,547,378,526,245,523,263,421,190,405,124,425,72,532,72" shape="poly">
+      <area target="_self" alt="division" title="division" href="error.html" coords="168,298,213,304,245,251,293,134,283,51,241,33,172,12,137,8,110,200,136,390,136,308" shape="poly">
+      <area target="_self" alt="subtraction" title="subtraction" href="error.html" coords="684,516,738,516,744,478,761,484,767,467,748,451,770,405,658,399,683,442,664,469,670,484,678,478" shape="poly">
+      <area target="_self" alt="to algebra" title="to algebra" href="error.html" coords="864,516,938,514,937,491,906,488,904,474,934,468,936,395,864,396,862,464,890,472,889,487,863,490,862,504" shape="poly">
+      <area target="_self" alt="exponentiation" title="exponentiation" href="error.html" coords="501,390,484,366,489,351,484,320,474,330,469,323,497,281,527,307,523,324,510,343,513,366" shape="poly">
+    </map>
+    <p id="points" style="display: inline; margin: 20px;">Oops! something went wrong while displaying this page. </p><a style = " white-space:nowrap; display: inline; margin: 20px;" id="coolstuff"href="account.html">Your Account</a>
+    <script>
+      peenis = localStorage.getItem("points")
+      
+      document.getElementById("points").innerHTML = "You have " + peenis + " points. " 
+      
+    </script>
+  </div>
+</body>
+</html>

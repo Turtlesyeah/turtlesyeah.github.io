@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up for Math98</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #6a0dad; /* Change to purple background color */
+        text-align: center;
+        padding: 50px;
+        background-image: url('backer2.png'); /* Added single quotes for the image URL */
+        background-size: 10000 px 10000 px;
+        background-repeat: repeat;
+        background-position: center;
+        font-color: white;
+        }
+        .sus {
+                max-width: 400px; /* Increase login part size */
+                margin: 0 auto;
+                background-color: #ffffff; /* Add white background to the login part */
+                padding: 20px; /* Add padding to the login part */
+                border-radius: 10px; /* Add border radius for rounded corners */
+            }
+        @keyframes example {
+        from {color: green;}
+        to {color: black;}
+        }
+        @keyframes example2 {
+        from {color: red;}
+        to {color: black;}
+        }    
+        #result {
+        animation: none;
+        }
+        .y, .x {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0; /* Increase margin for better spacing */
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        border-radius: 5px;
+        font-size: 20px;
+        }
+        .x {
+        background-color: gold; /* Change submit button to gold */
+        color: black; /* Change text color to black */
+        border: none;
+        cursor: pointer;
+        }
+        
+        .x:hover {
+        background-color: #ffdb58; /* Darken the gold color on hover */
+        }
+        .n {
+        width: 40%;
+        margin: 15px;
+        }
+        .gronk {
+            width: 5%;
+            float: right;
+            margin: 5px;
+            
+            
+        }
+    </style>
+    <script>
+        function makeSignin() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var usernames = JSON.parse(localStorage.getItem("usernames"));
+            var passwords = JSON.parse(localStorage.getItem("passwords"));
+            usernames.push(username);
+            passwords.push(password);
+            localStorage.setItem("usernames", JSON.stringify(usernames));
+            localStorage.setItem("passwords", JSON.stringify(passwords));
+            window.location.href = "login.html";
+        }
+    </script>
+</head>
+<body>
+    <div class="sus">
+        <!-- Your login form -->
+        <img src="logo.jpg" alt="logo" width="300" height="170">
+        <br>
+        <h2 style="color: #6a0dad;">Sign up for Math98</h2>
+        <form>
+            <input type="text" id="username" class="y"placeholder="Username" required>
+            <br>
+            <input type="password" id="password" class="y"placeholder="Password" required>
+            <br>
+            <input type="button" class="x"value="Sign up" onclick="makeSignin()">
+        </form>
+        <p id="incorrect" style="border: 0px solid white; color:red;"></p>
+        <p>Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+</body>
+</html>

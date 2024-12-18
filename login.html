@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to math98</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #6a0dad; /* Change to purple background color */
+        text-align: center;
+        padding: 50px;
+        background-image: url('backer2.png'); /* Added single quotes for the image URL */
+        background-size: 10000 px 10000 px;
+        background-repeat: repeat;
+        background-position: center;
+        font-color: white;
+        }
+        .sus {
+                max-width: 400px; /* Increase login part size */
+                margin: 0 auto;
+                background-color: #ffffff; /* Add white background to the login part */
+                padding: 20px; /* Add padding to the login part */
+                border-radius: 10px; /* Add border radius for rounded corners */
+            }
+        @keyframes example {
+        from {color: green;}
+        to {color: black;}
+        }
+        @keyframes example2 {
+        from {color: red;}
+        to {color: black;}
+        }    
+        #result {
+        animation: none;
+        }
+        .y, .x {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0; /* Increase margin for better spacing */
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        border-radius: 5px;
+        font-size: 20px;
+        }
+        .x {
+        background-color: gold; /* Change submit button to gold */
+        color: black; /* Change text color to black */
+        border: none;
+        cursor: pointer;
+        }
+        
+        .x:hover {
+        background-color: #ffdb58; /* Darken the gold color on hover */
+        }
+        .n {
+        width: 40%;
+        margin: 15px;
+        }
+        .gronk {
+            width: 5%;
+            float: right;
+            margin: 5px;
+            
+            
+        }
+    </style>
+    <script>
+        function validateLogin() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Check if the username and password are in the list (replace this with your actual validation logic)
+            var validUsernames = JSON.parse(localStorage.getItem("usernames")); // Example list of valid usernames
+            var validPasswords = JSON.parse(localStorage.getItem("passwords")); // Example list of valid passwords
+
+            var isValid = false;
+            for (var i = 0; i < validUsernames.length; i++) {
+                if (username === validUsernames[i] && password === validPasswords[i]) {
+                    isValid = true;
+                    break;
+                }
+            }
+
+            if (isValid) {
+                window.location.href = "home.html"; // Redirect to home.html if valid
+                localStorage.setItem("currentUsername", username)
+            } else {
+                document.getElementById("incorrect").style.border = "0px solid red"
+                document.getElementById('incorrect').innerHTML = "These credentials are not correct, please try again."; // Show an alert for invalid credentials
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="sus">
+        <!-- Your login form -->
+        <img src="logo.jpg" alt="logo" width="300" height="170">
+        <br>
+        <h2 style="color: #6a0dad;">Login to math98</h2>
+        <form>
+            <input type="text" id="username" class="y"placeholder="Username" required>
+            <br>
+            <input type="password" id="password" class="y"placeholder="Password" required>
+            <br>
+            <input type="button" class="x"value="Login" onclick="validateLogin()">
+        </form>
+        <p id="incorrect" style="border: 0px solid white; color:red;"></p>
+        <p>Don't have an account? <a href="signin.html">Sign up</a></p>
+    </div>
+</body>
+</html>

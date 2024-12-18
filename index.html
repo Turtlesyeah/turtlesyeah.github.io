@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <script>
+      username = localStorage.getItem("currentUsername")
+      if(username === "" || username === null) {
+        window.location.href = "login.html"
+      }
+      else {
+        window.location.href = "home.html"
+      }
+    </script>
+  </body>
+</html>

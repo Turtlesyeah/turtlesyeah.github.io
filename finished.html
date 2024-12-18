@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Results</title>
+      <style>
+         body {
+           font-family: Arial, sans-serif;
+           background-color: #6a0dad; /* Change to purple background color */
+           text-align: center;
+           padding: 50px;
+           background-image: url('backer2.png'); /* Added single quotes for the image URL */
+           background-size: 10000 px 10000 px;
+           background-repeat: repeat;
+           background-position: center;
+           
+         }
+         #sus {
+                 max-width: 400px; /* Increase login part size */
+                 margin: 0 auto;
+                 background-color: #ffffff; /* Add white background to the login part */
+                 padding: 20px; /* Add padding to the login part */
+                 border-radius: 10px; /* Add border radius for rounded corners */
+             }
+         @keyframes example {
+           from {color: green;}
+           to {color: black;}
+         }
+         @keyframes example2 {
+           from {color: red;}
+           to {color: black;}
+         }    
+         #result {
+           animation: none;
+         }
+         .y, .x {
+           width: 100%;
+           padding: 10px;
+           margin: 10px 0; /* Increase margin for better spacing */
+           display: inline-block;
+           border: 1px solid #ccc;
+           box-sizing: border-box;
+           border-radius: 5px;
+           font-size: 20px;
+         }
+         .x {
+           background-color: gold; /* Change submit button to gold */
+           color: black; /* Change text color to black */
+           border: none;
+           cursor: pointer;
+         }
+         .x:hover {
+           background-color: #ffdb58; /* Darken the gold color on hover */
+         }
+         .l {
+
+         }
+      </style>
+      <script>
+         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.querySelector("cool").href = "image.png";
+         };
+
+      </script>
+      <link id="cool" rel="icon" type="image/x-icon" href="logo-removed-backround.png">
+
+   </head>
+   <body>
+      <div id="sus">
+       <p id="printer">Something went wrong!</p>
+       <p id="printer2">Something went wrong again!</p>
+       <p id="printer3">Something went wrong again, somehow!</p>
+         <button type="submit" class="x" id="myBtn" onclick="window.location.href = groncle">Play Again</button>
+         <button type="submit" class="x" id="myBtn" onclick="window.location.href = promple">Go home</button>
+       <p id="total-points">You have 0 points.</p>
+
+      </div>
+       <script>
+         // Receiving page
+         const urlParams = new URLSearchParams(window.location.search);
+         const data = JSON.parse(decodeURIComponent(urlParams.get('data')));
+         const seconds = JSON.parse(decodeURIComponent(urlParams.get('seconds')));
+         const length = data.length
+         
+         const sum = data.reduce((partialSum, a) => partialSum + a, 0);
+         const average = sum / length;
+         var mather = Math.ceil(average * (100 * length));
+         if (mather < 0){
+          mather = 0;
+         };
+         const confirmed = "your score is " + (Math.round(average * 100)) + "%!";
+         document.getElementById("printer").innerHTML = confirmed;
+         const confirmer = "You have completed " + (mather/100) + " out of " + length + " questions correct in these " + (seconds - 1) + " seconds!";
+         document.getElementById("printer2").innerHTML = confirmer;
+         const confirmation = "You have gained " + mather + " points!";
+         document.getElementById("printer3").innerHTML = confirmation;
+         const points = mather + (JSON.parse(decodeURIComponent(urlParams.get('points'))));
+         document.getElementById("total-points").innerHTML = "You have " + points + " points.";
+         groncle = "math98xtest.html?points=" + points
+         localStorage.setItem("points", points)
+         promple = "home.html"
+         
+      </script>
+   </body>
+</html>

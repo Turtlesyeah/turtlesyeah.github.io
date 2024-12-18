@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Your Account</title>
+      <style>
+         body {
+           font-family: Arial, sans-serif;
+           background-color: #6a0dad; /* Change to purple background color */
+           text-align: center;
+           padding: 50px;
+           background-image: url('backer2.png'); /* Added single quotes for the image URL */
+           background-size: 10000 px 10000 px;
+           background-repeat: repeat;
+           background-position: center;
+           
+         }
+         .sus {
+                 max-width: 400px; /* Increase login part size */
+                 margin: 0 auto;
+                 background-color: #ffffff; /* Add white background to the login part */
+                 padding: 20px; /* Add padding to the login part */
+                 border-radius: 10px; /* Add border radius for rounded corners */
+             }
+         @keyframes example {
+           from {color: green;}
+           to {color: black;}
+         }
+         @keyframes example2 {
+           from {color: red;}
+           to {color: black;}
+         }    
+         #result {
+           animation: none;
+         }
+         .y, .x {
+           width: 100%;
+           padding: 10px;
+           margin: 10px 0; /* Increase margin for better spacing */
+           display: inline-block;
+           border: 1px solid #ccc;
+           box-sizing: border-box;
+           border-radius: 5px;
+           font-size: 20px;
+         }
+         .x {
+           background-color: gold; /* Change submit button to gold */
+           color: black; /* Change text color to black */
+           border: none;
+           cursor: pointer;
+           text-decoration: none;
+         }
+         .x:hover {
+           background-color: #ffdb58; /* Darken the gold color on hover */
+         }
+
+
+         .box {
+            background-color: black;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .abba {
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 3px;
+            text-decoration: none;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,
+                    0,
+                    0,
+                    0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            position: relative;
+            background: white;
+            padding: 1em 2em;
+            border-radius: 4px;
+        }
+
+        .modal:target {
+            display: flex;
+        }
+
+
+
+
+
+      </style>
+      <script>
+         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.querySelector("cool").href = "image.png";
+         };
+
+      </script>
+      <link id="cool" rel="icon" type="image/x-icon" href="logo-removed-backround.png">
+
+   </head>
+   <body>
+    <div class="sus">
+      <h1>Your Account</h1>
+      <h2 id="userperson">Welcome Back, turtlesyeah!</h2>
+      <br>
+      <p id="pointsCount"> Total points: [num]</p>
+      <a class="x" href="#delete-confirmation">Reset points</a>
+      <a class="x" href="login.html" onclick="localStorage.setItem('currentUsername', '');">Log out</a>
+      <a href="home.html">Go home</a>
+    <div id="delete-confirmation" class="modal">
+      <div class="sus">
+          <h1>Delete all points</h1>
+          <p>Are you sure you would like to remove all your points? <span style="color: red;">Warning: this cannot be undone.</span></p>
+          <button type="submit" class="x" id="myBtn" onclick="window.localStorage.setItem('points', 0);window.location.href = '';">Yes</button>
+          <button type="submit" class="x" id="myBtn" onclick="window.location.href = '#'">No</button>
+      </div>
+    </div>
+    </div>
+    <script>
+      const rizz = localStorage.getItem("points");
+      document.getElementById("pointsCount").innerHTML = "Total points: " + rizz;
+      const currentUsername = localStorage.getItem("currentUsername");
+      document.getElementById("userperson").innerHTML = "Welcome Back, " + currentUsername;
+    </script>
+   </body>
+</html>
