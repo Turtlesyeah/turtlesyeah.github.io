@@ -5,12 +5,17 @@
   </head>
   <body>
     <script>
-      username = localStorage.getItem("currentUsername")
+      username = localStorage.getItem("currentUsername");
+      usernames = localStorage.getItem("usernames");
+      if(usernames === null) {
+        localStorage.setItem("usernames", JSON.stringify([turtlesyeah]));
+        localStorage.setItem("passwords", JSON.stringify([iamanaxolotl]));
+      }
       if(username === "" || username === null) {
-        window.location.href = "login.html"
+        window.location.href = "login.html";
       }
       else {
-        window.location.href = "home.html"
+        window.location.href = "home.html";
       }
     </script>
   </body>
