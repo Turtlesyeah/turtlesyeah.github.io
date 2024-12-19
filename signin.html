@@ -72,10 +72,13 @@
             var password = document.getElementById('password').value;
             var usernames = JSON.parse(localStorage.getItem("usernames"));
             var passwords = JSON.parse(localStorage.getItem("passwords"));
+            var pointsList = JSON.parse(localStorage.getItem("pointsList"));
             usernames.push(username);
             passwords.push(password);
+            pointsList.push(0);
             localStorage.setItem("usernames", JSON.stringify(usernames));
             localStorage.setItem("passwords", JSON.stringify(passwords));
+            localStorage.setItem("pointsList", JSON.stringify(pointsList));
             window.location.href = "login.html";
         }
     </script>
@@ -89,7 +92,7 @@
         <form>
             <input type="text" id="username" class="y"placeholder="Username" required>
             <br>
-            <input type="text" id="password" class="y"placeholder="Password" required>
+            <input type="password" id="password" class="y"placeholder="Password" required>
             <br>
             <input type="button" class="x"value="Sign up" onclick="makeSignin()">
         </form>
