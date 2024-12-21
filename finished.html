@@ -96,7 +96,12 @@
          const points = mather + (JSON.parse(decodeURIComponent(urlParams.get('points'))));
          document.getElementById("total-points").innerHTML = "You have " + points + " points.";
          groncle = "math98xtest.html?points=" + points
-         localStorage.setItem("points", points)
+         const $pointsList = JSON.parse(localStorage.setItem("pointsList"));
+         const $username = localStorage.getItem("currentUsername");
+         const $usernamesVar = JSON.parse(localStorage.getItem("usernames"));
+         const $numLister = $usernamesVar.indexOf($username);
+         $pointsList[$numLister] = points;
+         localStorage.setItem("pointsList", $pointsList)
          promple = "home.html"
          
       </script>
