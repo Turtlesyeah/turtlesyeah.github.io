@@ -13,7 +13,6 @@
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
-            
         background-attachment: fixed;
       }
 
@@ -25,18 +24,15 @@
         max-width: 958px; /* Increase login part size */
         margin: 0 auto;
         background-color: #ffffff; /* Add white background to the login part */
-        
-         
         padding-bottom: 10px; 
         border-radius: 50px; /* Add border radius for rounded corners */
-        
       }
     </style>
 </head>
 <body>
   <div class="sus">
-    <h1 style = "display: block; margin: 0 auto;">Home</h1>
-    <img src="homer-min.png" usemap="#homerMap" max-width="100%" height="592" class="centered-image" style="border: 5px solid #ffdb58; border-radius: 50px; margin-bottom: 10px;">
+    <h1 style="display: block; margin: 0 auto;">Home</h1>
+    <img src="homer-min.png" usemap="#homerMap" style="max-width:100%; height:592px; border: 5px solid #ffdb58; border-radius: 50px; margin-bottom: 10px;" class="centered-image">
     <map name="homerMap">
       <area target="_self" alt="multiplication" title="multiplication" href="math98xtest.html" coords="630,147,807,141,857,185,858,206,629,212,629,171" shape="poly">
       <area target="_self" alt="addition" title="addition" href="error.html" coords="53,532,374,547,378,526,245,523,263,421,190,405,124,425,72,532,72" shape="poly">
@@ -45,19 +41,15 @@
       <area target="_self" alt="to algebra" title="to algebra" href="error.html" coords="864,516,938,514,937,491,906,488,904,474,934,468,936,395,864,396,862,464,890,472,889,487,863,490,862,504" shape="poly">
       <area target="_self" alt="exponentiation" title="exponentiation" href="error.html" coords="501,390,484,366,489,351,484,320,474,330,469,323,497,281,527,307,523,324,510,343,513,366" shape="poly">
     </map>
-    <p id="points" style="display: inline; margin: 20px;">Oops! something went wrong while displaying this page. </p><a style = " white-space:nowrap; display: inline; margin: 20px;" id="coolstuff"href="account.html">Your Account</a>
+    <p id="points" style="display: inline; margin: 20px;">Oops! something went wrong while displaying this page. </p><a style="white-space:nowrap; display: inline; margin: 20px;" id="coolstuff" href="account.html">Your Account</a>
     <script>
-      const pointsList = JSON.parse(localStorage.setItem("pointsList"));
+      const pointsList = JSON.parse(localStorage.getItem("pointsList"));
       const username = localStorage.getItem("currentUsername");
       const usernamesVar = JSON.parse(localStorage.getItem("usernames"));
       const numLister = usernamesVar.indexOf(username);
-      const peenis = pointsList[numLister];
-      if(peenis === null) {
-          peenis = 0;
-      }
+      let peenis = pointsList[numLister] || 0;
       
-      document.getElementById("points").innerHTML = "You have " + peenis + " points. " 
-      
+      document.getElementById("points").innerHTML = "You have " + peenis + " points.";
     </script>
   </div>
 </body>
