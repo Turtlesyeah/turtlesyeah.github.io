@@ -110,7 +110,11 @@
         if (peginus === "0") {
           // Sending page
           const urlParams = new URLSearchParams(window.location.search);
-          const points = Number(localStorage.getItem("points"))
+          const pointsList = JSON.parse(localStorage.setItem("pointsList"));
+          const username = localStorage.getItem("currentUsername");
+          const usernamesVar = JSON.parse(localStorage.getItem("usernames"));
+          const numLister = usernamesVar.indexOf(username);
+          const points = pointsList[numLister];
           const jsonString = JSON.stringify(seconds);
           const jsonString3 = JSON.stringify(points);
           const jsonString2 = JSON.stringify(josh);
