@@ -84,8 +84,8 @@
             }
 
             if (isValid) {
-                window.location.href = "home.html"; // Redirect to home.html if valid
                 localStorage.setItem("currentUsername", username)
+                window.location.href = "home.html"; // Redirect to home.html if valid
             } else {
                 document.getElementById("incorrect").style.border = "0px solid red"
                 document.getElementById('incorrect').innerHTML = "These credentials are not correct, please try again."; // Show an alert for invalid credentials
