@@ -43,11 +43,7 @@
     </map>
     <p id="points" style="display: inline; margin: 20px;">Oops! something went wrong while displaying this page. </p>
     <script>
-      let pointsList = JSON.parse(localStorage.getItem("pointsList") || "[]");
-      let username = localStorage.getItem("currentUsername") || "";
-      let usernamesVar = JSON.parse(localStorage.getItem("usernames") || "[]");
-      let numLister = usernamesVar.indexOf(username);
-      let points = pointsList[numLister] || 0;
+      let peenis = localStorage.getItem("points")
       
       document.getElementById("points").innerHTML = "You have " + points + " points.";
     </script>
