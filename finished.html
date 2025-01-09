@@ -70,7 +70,7 @@
        <p id="printer2">Something went wrong again!</p>
        <p id="printer3">Something went wrong again, somehow!</p>
          <button type="submit" class="x" id="myBtn" onclick="window.location.href = groncle">Play Again</button>
-         <button type="submit" class="x" id="myBtn" onclick="window.location.href = window.location.href = 'home.html'">Go home</button>
+         <button type="submit" class="x" id="myBtn" onclick="window.location.href = promple">Go home</button>
        <p id="total-points">You have 0 points.</p>
 
       </div>
@@ -96,12 +96,7 @@
          const points = mather + (JSON.parse(decodeURIComponent(urlParams.get('points'))));
          document.getElementById("total-points").innerHTML = "You have " + points + " points.";
          groncle = "math98xtest.html?points=" + points
-         const $pointsList = JSON.parse(localStorage.getItem("pointsList"));
-         const $username = localStorage.getItem("currentUsername");
-         const $usernamesVar = JSON.parse(localStorage.getItem("usernames"));
-         const $numLister = $usernamesVar.indexOf($username);
-         $pointsList[$numLister] = $points;
-         localStorage.setItem("pointsList", JSON.stringify($pointsList));
+         localStorage.setItem("points", points)
          promple = "home.html"
          
       </script>
