@@ -72,7 +72,7 @@
             var password = document.getElementById('password').value;
             var usernames = JSON.parse(localStorage.getItem("usernames"));
             var passwords = JSON.parse(localStorage.getItem("passwords"));
-            var points = localStorage.getItem("points"));
+            var points = localStorage.getItem("points");
             usernames.push(username);
             passwords.push(password);
             localStorage.setItem("usernames", JSON.stringify(usernames));
@@ -89,9 +89,9 @@
         <br>
         <h2 style="color: #6a0dad;">Sign up for Math98</h2>
         <form>
-            <input type="text" id="username" class="y"placeholder="Username" required>
+            <input type="text" id="username" class="y" placeholder="Username" required>
             <br>
-            <input type="password" id="password" class="y"placeholder="Password" required>
+            <input type="password" id="password" class="y" placeholder="Password" required>
             <br>
             <input type="button" class="x"value="Sign up" onclick="makeSignin()">
         </form>
