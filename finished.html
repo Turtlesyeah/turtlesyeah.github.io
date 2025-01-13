@@ -93,7 +93,7 @@
          document.getElementById("printer2").innerHTML = confirmer;
          const confirmation = "You have gained " + mather + " points!";
          document.getElementById("printer3").innerHTML = confirmation;
-         const points = mather + (JSON.parse(decodeURIComponent(urlParams.get('points'))));
+         const points = parseInt(mather) + parseInt((JSON.parse(decodeURIComponent(urlParams.get('points')))));
          document.getElementById("total-points").innerHTML = "You have " + points + " points.";
          groncle = "math98xtest.html?points=" + points
          localStorage.setItem("points", points)
