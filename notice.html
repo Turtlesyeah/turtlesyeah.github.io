@@ -1,77 +1,85 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign up for Math98</title>
     <style>
+        .warn {
+            padding: 20px;
+            border-radius: 40px;
+            border: 3px solid red;
+            text-align: center; 
+            background-color: #ffe6e6;
+        }
         body {
-        font-family: Arial, sans-serif;
-        background-color: #6a0dad; /* Change to purple background color */
-        text-align: center;
-        padding: 50px;
-        background-image: url('backer2.png'); /* Added single quotes for the image URL */
-        background-size: 10000 px 10000 px;
-        background-repeat: repeat;
-        background-position: center;
-        font-color: white;
+            font-family: Arial, sans-serif;
+            background-color: #6a0dad; /* Change to purple background color */
+            text-align: center;
+            padding: 50px;
+            background-image: url('backer2.png'); /* Added single quotes for the image URL */
+            background-size: 10000px 10000px;
+            background-repeat: repeat;
+            background-position: center;
+            color: white;
         }
         .sus {
-                max-width: 400px; /* Increase login part size */
-                margin: 0 auto;
-                background-color: #ffffff; /* Add white background to the login part */
-                padding: 20px; /* Add padding to the login part */
-                border-radius: 10px; /* Add border radius for rounded corners */
-            }
+            max-width: 400px; /* Increase login part size */
+            margin: 0 auto;
+            background-color: #ffffff; /* Add white background to the login part */
+            padding: 20px; /* Add padding to the login part */
+            border-radius: 10px; /* Add border radius for rounded corners */
+        }
         @keyframes example {
-        from {color: green;}
-        to {color: black;}
+            from {color: green;}
+            to {color: black;}
         }
         @keyframes example2 {
-        from {color: red;}
-        to {color: black;}
-        }    
+            from {color: red;}
+            to {color: black;}
+        }
         #result {
-        animation: none;
+            animation: none;
         }
         .y, .x {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0; /* Increase margin for better spacing */
-        display: inline-block;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-        border-radius: 5px;
-        font-size: 20px;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0; /* Increase margin for better spacing */
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 5px;
+            font-size: 20px;
         }
         .x {
-        background-color: gold; /* Change submit button to gold */
-        color: black; /* Change text color to black */
-        border: none;
-        cursor: pointer;
+            background-color: gold; /* Change submit button to gold */
+            color: black; /* Change text color to black */
+            border: none;
+            cursor: pointer;
         }
-        
         .x:hover {
-        background-color: #ffdb58; /* Darken the gold color on hover */
+            background-color: #ffdb58; /* Darken the gold color on hover */
         }
         .n {
-        width: 40%;
-        margin: 15px;
+            width: 40%;
+            margin: 15px;
         }
         .gronk {
             width: 5%;
             float: right;
             margin: 5px;
-            
-            
         }
+    </style>
 </head>
 <body>
-  <div class="sus">
-    <div class="warn" style="text-align: center; backround-color: #ffe6e6;">
-      <p style="font-weight: bold; font-color: red;">NOTICE: </p>
+    <div class="sus">
+        <div class="warn">
+            <p style="font-weight: bold; color: red;"><br>NOTICE:<br><br></p>
+            <p style="color: red;">This page is a work in progress. Anything on here could stop working at any time, and may not work right now. Are you sure you would like to enter? Please report any issues to <a href="https://github.com/Turtlesyeah/turtlesyeah.github.io/issues/new">here.</a><br><br></p> 
+            <button onclick="window.location.href = 'login.html';" style="padding: 5px;border: 2px solid red;" class="warn">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enter page&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>      
+            <button onclick="window.close();" style="padding: 5px;border: 2px solid red;" class="warn"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit page&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+
+        </div>
     </div>
-  </div>
 </body>
 </html>
