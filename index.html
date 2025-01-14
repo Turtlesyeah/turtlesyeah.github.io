@@ -7,6 +7,7 @@
     <script>
       username = localStorage.getItem("currentUsername");
       usernames = localStorage.getItem("usernames");
+      accept = localStorage.getItem("accepted");
       if(usernames === null) {
         localStorage.setItem("usernames", JSON.stringify(["turtlesyeah"]));
         localStorage.setItem("passwords", JSON.stringify(["iamanaxolotl"]));
@@ -16,7 +17,7 @@
 
       }
       else {}
-      if(username === "" || username === null) {
+      if(username === "" || username === null || accept === null || accept !== "false") {
         window.location.href = "notice.html";
       }
       else {
