@@ -12,12 +12,12 @@
         localStorage.setItem("usernames", JSON.stringify(["turtlesyeah"]));
         localStorage.setItem("passwords", JSON.stringify(["iamanaxolotl"]));
         localStorage.setItem("pointsList", JSON.stringify([0]));
-        localStorage.setItem("currentUsername", "cheater");
+        localStorage.setItem("currentUsername", "");
         localStorage.setItem("points", 0);
 
       }
       else {}
-      if(username === "" || username === null || accept === null || accept === "false") {
+      if(username === "" || username === null || accept === null) {
         window.location.href = "notice.html";
       }
       else {
