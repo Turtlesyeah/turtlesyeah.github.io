@@ -17,8 +17,11 @@
 
       }
       else {}
-      if(username === "" || username === null || accept === null) {
+      if(username === null) {
         window.location.href = "notice.html";
+      }
+      else if(username === "" || accept === null) {
+        window.location.href = "login.html";
       }
       else {
         window.location.href = "home.html";
