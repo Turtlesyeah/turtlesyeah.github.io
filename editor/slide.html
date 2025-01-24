@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 <style>
+.amogus {
+  background-color: aqua;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 4px;
+}
 #justwhy::-webkit-file-upload-button {
   visibility: hidden;
 }
@@ -12,11 +18,9 @@ input[type='file'] {
   left: -100000000px;
   cursor: move;
 }
-#mydiv {
+#mydiv, #myImg {
   position: absolute;
   z-index: 9;
-  width: 100px;
-  height: 300px;
   cursor: move;
   background-color: #e63c11;
   text-align: center;
@@ -33,30 +37,49 @@ input[type='file'] {
 </style>
 <body>
 
-<div id="mydiv"></div>
+<div id="mydiv">Hello!</div>
 <input type='file' value="   " name="file" id="file" class="inputfile"/>
-<br><img id="myImg" src="#">
-<label for="file">Choose a file</label>
-
+<label class="amogus" for="file">Choose a file</label>
 <script>
-window.addEventListener('load', function() {
-  document.querySelector('input[type="file"]').addEventListener('change', function() {
-      if (this.files && this.files[0]) {
-          var img = document.querySelector('img');
-          img.onload = () => {
-              URL.revokeObjectURL(img.src);  // no longer needed, free memory
-          }
+window.addEventListener("error", handleError, true);
 
-          img.src = URL.createObjectURL(this.files[0]); // set src to blob url
-      }
-  });
+function handleError(evt) {
+    if (evt.message) { // Chrome sometimes provides this
+      alert("error: "+evt.message +" at linenumber: "+evt.lineno+" of file: "+evt.filename);
+    } else {
+      alert("error: "+evt.type+" from element: "+(evt.srcElement || evt.target));
+    }
+}
+</script>
+<script>
+countervar = 0;
+function doDrag(hi) {hellman = document.getElementById(xanad); dragElement(hellman);}
+window.addEventListener('load', function() {
+    document.querySelector('input[type="file"]').addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const img = document.createElement("img");
+            img.onload = () => {
+                URL.revokeObjectURL(img.src);  // no longer needed, free memory
+            }
+
+            img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+            document.body.insertBefore(img, document.getElementById("mydiv"));
+            countervar = countervar + 1;
+            xanad = ("hello" + countervar);
+            img.setAttribute("id", xanad);
+            img.style.position = "absolute";
+            img.style.cursor = "move";
+            dragElement(img);
+            
+        }
+    });
 });
 
-dragElement("mydiv");
-dragElement("myImg");
+dragElement(document.getElementById("mydiv"));
 
-function dragElement(elmntfff) {
-  elmnt = document.getElementById(elmntfff);
+function dragElement(elmnt) {
+  elmnt.style.position = "absolute";
+  elmnt.class = "draggable";
   window.addEventListener('click', function(e){   
     if (elmnt.contains(e.target)){
         elmnt.style.border = "3px solid blue";
@@ -66,15 +89,21 @@ function dragElement(elmntfff) {
     });
   
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id)) {
+  if (document.getElementById(elmnt.id + "header")) {
     /* if present, the header is where you move the DIV from:*/
-    document.getElementById(elmnt.id).onmousedown = dragMouseDown;
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
   } else {
     /* otherwise, move the DIV from anywhere inside the DIV:*/
     elmnt.onmousedown = dragMouseDown;
   }
 
   function dragMouseDown(e) {
+    const highlightedItems = document.querySelectorAll(".draggable");
+    highlightedItems.forEach((userItem) => {
+      userItem.style.border = "0px solid red";
+    });
+
+    elmnt.style.border = "3px solid blue";
     e = e || window.event;
     e.preventDefault();
     // get the mouse cursor position at startup:
@@ -86,7 +115,7 @@ function dragElement(elmntfff) {
   }
 
   function elementDrag(e) {
-    elmnt.style.border = "3px solid blue";
+
     e = e || window.event;
     e.preventDefault();
     // calculate the new cursor position:
@@ -97,7 +126,6 @@ function dragElement(elmntfff) {
     // set the element's new position:
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    
   }
 
   function closeDragElement() {
