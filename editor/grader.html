@@ -80,7 +80,7 @@ function grader() {
     let length = scoreList.length;
     let presentp = "Your grades are: ";
     window.alert(score_list);
-    if (length == 1) {presentp = "You have an ";} else if (score_list.length == 0) {presentp = "No grades to display.";} else {}
+    if (length == 1) {presentp = "You have an ";} else{} if (score_list.length === 0 || (score_list.length === 1 && score_list[0] === "")) {document.getElementById('reporter').innerHTML = "No grades to display."; return;} else {}
     for (const ascore_fraction of scoreList) {
         let grade = "";
         cheese++;
