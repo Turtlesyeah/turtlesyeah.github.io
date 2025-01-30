@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Python Grader By Turtlesyeah</h1>
+    <p>Hello! Welcome to my Grader! 
+        This grader takes test scores and turns them
+        into letter grades!
+        First type the number of questions in the test or say percent (for percents),
+        then enter the scores of any tests or the percent,
+        separated by commas, with spaces.
+        This grader is made For LCS,
+        In Hartland. Thanks!</p>
+    <input id="input_question" type="number" placeholder="# of points">
+    <input id="scoreser" onKeyDown="myFunction()" type="text" placeholder="scores">
+    <input type="button" value="Submit" onclick="grader()">
+    <p id="reporter"></p>
+
+    <script>
+        window.addEventListener("error", handleError, true);
+        
+        function handleError(evt) {
+            if (evt.message) { // Chrome sometimes provides this
+              alert("error: "+evt.message +" at linenumber: "+evt.lineno+" of file: "+evt.filename);
+            } else {
+              alert("error: "+evt.type+" from element: "+(evt.srcElement || evt.target));
+            }
+        }
+    </script>
+
+
+<script>    
+
+function myFunction() {
+    var e = event || window.event;  // get event object
+    var key = e.keyCode || e.which; // get key cross-browser
+
+    if (key !== 8||key !== 32||key !== 44||key !== 48||key !== 49||key !== 50||key !== 51||key !== 52||key !== 53||key !== 54||key !== 55||key !== 56||key !== 57) { //if it is not a number ascii code
+        //Prevent default action, which is inserting character
+        if (e.preventDefault) e.preventDefault(); //normal browsers
+        e.returnValue = false; //IE
+    }
+}
+
+
+
+function grader() {
+    const input_question = document.getElementById('input_question').value;
+
+    let int_question;
+    try { //checking if the number of questions is valid
+    if (input_question === "percent") {
+        int_question = 100;
+    } else {
+        int_question = parseInt(input_question);
+    }
+    } catch {
+    document.getElementById('reporter').innerHTML = "sorry, that is not a number.";
+    exit();
+    }
+
+    // making a list of scores from the string list of scores
+    const score_list = (document.getElementById('scoreser').value).split(", ");
+    const scoreList = [];
+    for (const thing of score_list) {
+    try { // checking if any scores are invalid
+        const thingy = Number(thing);
+        if (int_question > 0) { // calculating the percent score
+        const newThing = thingy / int_question;
+        scoreList.push(newThing);
+        } else {
+        document.getElementById('reporter').innerHTML = "Number of questions cannot be zero or below. Please input a valid number.";
+        }
+        if (int_question == NaN) {document.getElementById('reporter').innerHTML = "sorry, one of your scores is not a number.";} else{}
+    } catch {
+        document.getElementById('reporter').innerHTML = "sorry, one of your scores is not a number.";
+        exit();
+    }
+    }
+
+    // all the ranges for grades
+    const A_range = Array.from({ length: 8 }, (_, i) => 94 + i);
+    const Aminus_range = Array.from({ length: 1 }, () => 93);
+    const Bplus_range = Array.from({ length: 2 }, (_, i) => 91 + i);
+    const B_range = Array.from({ length: 5 }, (_, i) => 86 + i);
+    const Bminus_range = Array.from({ length: 2 }, (_, i) => 84 + i);
+    const Cplus_range = Array.from({ length: 2 }, (_, i) => 82 + i);
+    const C_range = Array.from({ length: 5 }, (_, i) => 77 + i);
+    const Cminus_range = Array.from({ length: 3 }, (_, i) => 74 + i);
+    const Dplus_range = Array.from({ length: 2 }, (_, i) => 72 + i);
+    const D_range = Array.from({ length: 2 }, (_, i) => 70 + i);
+    const Dminus_range = Array.from({ length: 2 }, (_, i) => 68 + i);
+    const F_range = 68;
+    let cheese = 0;
+    let presentp = "Your grades are: ";
+    for (const ascore_fraction of scoreList) {
+    let grade = "";
+    cheese++;
+    const ascore_int = Math.floor(ascore_fraction * 100); // Convert the float to an integer
+    if (A_range.includes(ascore_int)) {
+        grade = "A";
+    } else if (Aminus_range.includes(ascore_int)) {
+        grade = "A-";
+    } else if (Bplus_range.includes(ascore_int)) {
+        grade = "B+";
+    } else if (B_range.includes(ascore_int)) {
+        grade = "B";
+    } else if (Bminus_range.includes(ascore_int)) {
+        grade = "B-";
+    } else if (Cplus_range.includes(ascore_int)) {
+        grade = "C+";
+    } else if (C_range.includes(ascore_int)) {
+        grade = "C";
+    } else if (Cminus_range.includes(ascore_int)) {
+        grade = "C-";
+    } else if (Dplus_range.includes(ascore_int)) {
+        grade = "D+";
+    } else if (D_range.includes(ascore_int)) {
+        grade = "D";
+    } else if (Dminus_range.includes(ascore_int)) {
+        grade = "D-";
+    } else if (ascore_int < F_range) {
+        grade = "F";
+    } else {
+        grade = "A+";
+    }
+    if(cheese !== 1) {presentp += (", " + grade);}else {presentp += grade;}
+    
+    }
+    document.getElementById('reporter').innerHTML = presentp;
+
+}
+</script>
+</body>
+</html>
