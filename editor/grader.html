@@ -29,15 +29,7 @@
 
 
 <script>    
-function myFunction() {
-    var e = event || window.event;  // get event object
-    var key = e.keyCode || e.which; // get key cross-browser
 
-    if (key !== 8 && key !== 32 && key !== 44 && (key < 48 || key > 57)) { // if it is not a number ascii code
-        if (e.preventDefault) e.preventDefault(); // normal browsers
-        e.returnValue = false; // IE
-    }
-}
 
 function grader() {
     const input_question = document.getElementById('input_question').value;
