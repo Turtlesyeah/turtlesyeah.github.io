@@ -7,7 +7,7 @@
         }
     </style>
 </head>
-<body>
+<body id="thebody">
     <h1>LCS Grader By Turtlesyeah</h1>
     <p>Hello! Welcome to my Grader! 
         This grader takes test scores and turns them
@@ -49,6 +49,14 @@ inpute.addEventListener("keypress", function(event) {
       if (event.key === "Enter"){
         event.preventDefault();
         grader();
+        document.getElementById("scoreser").select();
+        }
+      });
+var inputes = document.getElementById("thebody");
+inputes.addEventListener("keypress", function(event) {
+      if (event.key === "Enter"){
+        event.preventDefault();
+        
         document.getElementById("scoreser").select();
         }
       });
