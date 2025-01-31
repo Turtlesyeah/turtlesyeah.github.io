@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
 <body>
     <h1>LCS Grader By Turtlesyeah</h1>
     <p>Hello! Welcome to my Grader! 
@@ -30,8 +37,21 @@
 
 
 <script>    
-
-
+var input = document.getElementById("scoreser");
+input.addEventListener("keypress", function(event) {
+      if (event.key === "Enter"){
+        event.preventDefault();
+        document.getElementById("input_question").select();
+        }
+      });
+var inpute = document.getElementById("input_question");
+inpute.addEventListener("keypress", function(event) {
+      if (event.key === "Enter"){
+        event.preventDefault();
+        grader();
+        document.getElementById("scoreser").select();
+        }
+      });
 function grader() {
     const input_question = document.getElementById('input_question').value;
 
@@ -79,7 +99,6 @@ function grader() {
     let cheese = 0;
     let length = scoreList.length;
     let presentp = "Your grades are: ";
-    window.alert(score_list);
     if (length == 1) {presentp = "You have an ";} else{} if (score_list.length === 0 || (score_list.length === 1 && score_list[0] === "")) {document.getElementById('reporter').innerHTML = "No grades to display."; return;} else {}
     for (const ascore_fraction of scoreList) {
         let grade = "";
