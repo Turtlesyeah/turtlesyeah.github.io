@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+   body {
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+   }
+   .player {
+      background-color: rgb(225, 15, 15);
+      padding: 10px;
+      position: absolute;
+      left: 0px; /* Initial position */
+      top: 0px; /* Initial position */
+      writing-mode:vertical-rl;
+   }
+</style>
+</head>
+<body id="thebody">
+
+   <p id="igloo" class="player">:)</p>
+
+<script>
+
+var igloo = document.getElementById("igloo");
+var inputes = document.getElementById("thebody");
+function visible(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+igloo.style.left = "0px"; // Initialize the left position
+igloo.style.top = "0px"; // Initialize the top position
+
+var moveAmount = 1; // Amount to move each step
+var moveInterval = 5; // Time between each step in milliseconds
+var moveDirectionX = 0; // -1 for left, 1 for right, 0 for no movement
+var moveDirectionY = 0; // -1 for up, 1 for down, 0 for no movement
+
+inputes.addEventListener("keydown", function(event) {
+    if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        moveDirectionX = -1;
+    }
+    if (event.key === "ArrowRight") {
+        event.preventDefault();
+        moveDirectionX = 1;
+    }
+    if (event.key === "ArrowUp") {
+        event.preventDefault();
+        moveDirectionY = -1;
+    }
+    if (event.key === "ArrowDown") {
+        event.preventDefault();
+        moveDirectionY = 1;
+    }
+});
+
+inputes.addEventListener("keyup", function(event) {
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        event.preventDefault();
+        moveDirectionX = 0;
+    }
+    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+        event.preventDefault();
+        moveDirectionY = 0;
+    }
+});
+
+setInterval(function() {
+   if (!(visible(igloo))) {
+        return;
+   } else {}
+    if (moveDirectionX !== 0) {
+        igloo.style.left = (parseInt(igloo.style.left, 10) + (moveDirectionX * moveAmount)) + "px";
+    }
+    if (moveDirectionY !== 0) {
+        igloo.style.top = (parseInt(igloo.style.top, 10) + (moveDirectionY * moveAmount)) + "px";
+    }
+}, moveInterval);
+</script>
+</body>
+</html>
