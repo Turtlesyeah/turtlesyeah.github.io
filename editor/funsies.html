@@ -82,6 +82,25 @@ setInterval(function() {
         igloo.style.top = (parseInt(igloo.style.top, 10) + (moveDirectionY * moveAmount)) + "px";
     }
 }, moveInterval);
+setInterval(function() {
+    var rect = igloo.getBoundingClientRect();
+
+    // Prevent moving out of the left and right boundaries
+    if (moveDirectionX !== 0) {
+        var newLeft = parseInt(igloo.style.left, 10) + (moveDirectionX * moveAmount);
+        if (newLeft >= 0 && newLeft + rect.width <= window.innerWidth) {
+            igloo.style.left = newLeft + "px";
+        }
+    }
+
+    // Prevent moving out of the top and bottom boundaries
+    if (moveDirectionY !== 0) {
+        var newTop = parseInt(igloo.style.top, 10) + (moveDirectionY * moveAmount);
+        if (newTop >= 0 && newTop + rect.height <= window.innerHeight) {
+            igloo.style.top = newTop + "px";
+        }
+    }
+}, moveInterval);
 </script>
 </body>
 </html>
