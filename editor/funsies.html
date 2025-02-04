@@ -90,6 +90,10 @@ setInterval(function() {
         var newLeft = parseInt(igloo.style.left, 10) + (moveDirectionX * moveAmount);
         if (newLeft >= 0 && newLeft + rect.width <= window.innerWidth) {
             igloo.style.left = newLeft + "px";
+        } else if (newLeft < 0) {
+            igloo.style.left = "0px";
+        } else if (newLeft + rect.width > window.innerWidth) {
+            igloo.style.left = (window.innerWidth - rect.width) + "px";
         }
     }
 
@@ -98,6 +102,10 @@ setInterval(function() {
         var newTop = parseInt(igloo.style.top, 10) + (moveDirectionY * moveAmount);
         if (newTop >= 0 && newTop + rect.height <= window.innerHeight) {
             igloo.style.top = newTop + "px";
+        } else if (newTop < 0) {
+            igloo.style.top = "0px";
+        } else if (newTop + rect.height > window.innerHeight) {
+            igloo.style.top = (window.innerHeight - rect.height) + "px";
         }
     }
 }, moveInterval);
