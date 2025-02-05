@@ -41,17 +41,19 @@ function john() {
 function jump() {
     let jumpTiming = 5;
     let times = 5; // Number of times to jump
-    let intervalId = setInterval(function() {
+    
+    function executeJump() {
         if (times > 0) {
             jumpDirectionY = -1; // Move up
             john();
             jumpDirectionY = 0; // Stop moving up
             times--;
-            jumpTiming *= 2;
-        } else {
-            clearInterval(intervalId); // Stop the interval
+            setTimeout(executeJump, jumpTiming);
+            jumpTiming *= 2; // Double the time for the next jump
         }
-    }, jumpTiming);
+    }
+    
+    executeJump();
 }
 
 let ground = document.getElementById("ground");
