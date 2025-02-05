@@ -30,34 +30,36 @@
             alert("error: "+evt.type+" from element: "+(evt.srcElement || evt.target));
           }
       }
-      </script>
+   </script>
 <script>
-john = function() {
-    
+function john() {
     if (jumpDirectionY !== 0) {
         igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * moveAmount)) + "px";
     }
 }
+
 function jump() {
-   
-   isJumpable = false;
-   for(let i = 0; i > 5; i++) {
-      jumpTiming = 5;
-      setInterval(john(), jumpTiming);
-      jumpTiming = jumpTiming * 2;
-   }
-   
+    let jumpTiming = 5;
+    let times = 5; // Number of times to jump
+    let intervalId = setInterval(function() {
+        if (times > 0) {
+            jumpDirectionY = -1; // Move up
+            john();
+            jumpDirectionY = 0; // Stop moving up
+            times--;
+            jumpTiming *= 2;
+        } else {
+            clearInterval(intervalId); // Stop the interval
+        }
+    }, jumpTiming);
 }
-
-
-
-
-
 
 let ground = document.getElementById("ground");
 let igloo = document.getElementById("player");
 let inputes = document.getElementById("thebody");
 let isJumpable = false;
+let jumpDirectionY = 0;
+
 function doElsCollide(el1, el2) {
     el1.offsetBottom = el1.offsetTop + el1.offsetHeight;
     el1.offsetRight = el1.offsetLeft + el1.offsetWidth;
