@@ -39,6 +39,8 @@ function john() {
 }
 
 function jump() {
+    isJumpable = false;
+    isJumping = true;
     let jumpTiming = 5;
     let times = 5; // Number of times to jump
     
@@ -54,12 +56,15 @@ function jump() {
     }
     
     executeJump();
+    
+    isJumping = false;
 }
 
 let ground = document.getElementById("ground");
 let igloo = document.getElementById("player");
 let inputes = document.getElementById("thebody");
 let isJumpable = false;
+let isJumping = false;
 let jumpDirectionY = 0;
 
 function doElsCollide(el1, el2) {
@@ -101,9 +106,9 @@ inputes.addEventListener("keydown", function(event) {
         event.preventDefault();
         moveDirectionX = 1;
     }
-    if (event.key === "ArrowUp") {
+    if (event.key === "ArrowUp" && isJumpable) {
         event.preventDefault();
-        if(isJumpable) {jump();}
+        jump();
     }
     if (event.key === "ArrowDown") {
         event.preventDefault();
@@ -123,7 +128,7 @@ inputes.addEventListener("keyup", function(event) {
 });
 
 setInterval(function() {
-    if (doElsCollide(ground, igloo)) {
+    if (doElsCollide(ground, igloo) && isJumping) {
         moveDirectionY = 0;
         isJumpable = true;
     } else {
