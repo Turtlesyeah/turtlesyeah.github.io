@@ -128,7 +128,7 @@ inputes.addEventListener("keyup", function(event) {
 });
 
 setInterval(function() {
-    if (doElsCollide(ground, igloo) && isJumping) {
+    if (doElsCollide(ground, igloo) || isJumping) {
         moveDirectionY = 0;
         isJumpable = true;
     } else {
