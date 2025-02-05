@@ -20,22 +20,56 @@
    
    <p id="player" class="player">:)</p>
    <div class="player" id="ground" style="height: 40px; width: 4000px; background-color: green; top: 580px; margin-left: -8px;" ></div>
-
+   <script>
+      window.addEventListener("error", handleError, true);
+      
+      function handleError(evt) {
+          if (evt.message) { // Chrome sometimes provides this
+            alert("error: "+evt.message +" at linenumber: "+evt.lineno+" of file: "+evt.filename);
+          } else {
+            alert("error: "+evt.type+" from element: "+(evt.srcElement || evt.target));
+          }
+      }
+      </script>
 <script>
-ground = document.getElementById("ground");
+john = function() {
+    
+    if (jumpDirectionY !== 0) {
+        igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * moveAmount)) + "px";
+    }
+}
+function jump() {
+   jumpTiming = 5;
+   isJumpable = false;
+   for(let i = 0; i > 5; i++) {
+      jumpTiming = 5;
+      setInterval(john(), jumpTiming);
+      jumpTiming = jumpTiming * 2;
+   }
+   
+}
+
+
+
+
+
+
+let ground = document.getElementById("ground");
+let igloo = document.getElementById("player");
+let inputes = document.getElementById("thebody");
+let isJumpable = false;
 function doElsCollide(el1, el2) {
     el1.offsetBottom = el1.offsetTop + el1.offsetHeight;
     el1.offsetRight = el1.offsetLeft + el1.offsetWidth;
     el2.offsetBottom = el2.offsetTop + el2.offsetHeight;
     el2.offsetRight = el2.offsetLeft + el2.offsetWidth;
 
-    return ((el1.offsetBottom < el2.offsetTop) ||
+    return !((el1.offsetBottom < el2.offsetTop) ||
              (el1.offsetTop > el2.offsetBottom) ||
              (el1.offsetRight < el2.offsetLeft) ||
-             (el1.offsetLeft > el2.offsetRight))
-};
-var igloo = document.getElementById("player");
-var inputes = document.getElementById("thebody");
+             (el1.offsetLeft > el2.offsetRight));
+}
+
 function visible(element) {
     const rect = element.getBoundingClientRect();
     return (
@@ -45,13 +79,14 @@ function visible(element) {
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
 }
+
 igloo.style.left = "0px"; // Initialize the left position
 igloo.style.top = "0px"; // Initialize the top position
 
-var moveAmount = 1; // Amount to move each step
-var moveInterval = 5; // Time between each step in milliseconds
-var moveDirectionX = 0; // -1 for left, 1 for right, 0 for no movement
-var moveDirectionY = 0; // -1 for up, 1 for down, 0 for no movement
+let moveAmount = 1; // Amount to move each step
+let moveInterval = 5; // Time between each step in milliseconds
+let moveDirectionX = 0; // -1 for left, 1 for right, 0 for no movement
+let moveDirectionY = 0; // -1 for up, 1 for down, 0 for no movement
 
 inputes.addEventListener("keydown", function(event) {
     if (event.key === "ArrowLeft") {
@@ -62,9 +97,14 @@ inputes.addEventListener("keydown", function(event) {
         event.preventDefault();
         moveDirectionX = 1;
     }
-
-    
-
+    if (event.key === "ArrowUp") {
+        event.preventDefault();
+        if(isJumpable) {jump();}
+    }
+    if (event.key === "ArrowDown") {
+        event.preventDefault();
+        moveDirectionY = 1;
+    }
 });
 
 inputes.addEventListener("keyup", function(event) {
@@ -79,9 +119,13 @@ inputes.addEventListener("keyup", function(event) {
 });
 
 setInterval(function() {
-   if (doElsCollide(ground, igloo)) {
-      moveDirectionY = 1;
-   } else {}
+    if (doElsCollide(ground, igloo)) {
+        moveDirectionY = 0;
+        isJumpable = true;
+    } else {
+        moveDirectionY = 1;
+        isJumpable = false;
+    }
     if (moveDirectionX !== 0) {
         igloo.style.left = (parseInt(igloo.style.left, 10) + (moveDirectionX * moveAmount)) + "px";
     }
