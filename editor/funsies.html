@@ -17,11 +17,23 @@
 </style>
 </head>
 <body id="thebody">
-
+   
    <p id="player" class="player">:)</p>
+   <div class="player" id="ground" style="height: 40px; width: 4000px; background-color: green; top: 580px; margin-left: -8px;" ></div>
 
 <script>
+ground = document.getElementById("ground");
+function doElsCollide(el1, el2) {
+    el1.offsetBottom = el1.offsetTop + el1.offsetHeight;
+    el1.offsetRight = el1.offsetLeft + el1.offsetWidth;
+    el2.offsetBottom = el2.offsetTop + el2.offsetHeight;
+    el2.offsetRight = el2.offsetLeft + el2.offsetWidth;
 
+    return ((el1.offsetBottom < el2.offsetTop) ||
+             (el1.offsetTop > el2.offsetBottom) ||
+             (el1.offsetRight < el2.offsetLeft) ||
+             (el1.offsetLeft > el2.offsetRight))
+};
 var igloo = document.getElementById("player");
 var inputes = document.getElementById("thebody");
 function visible(element) {
@@ -50,14 +62,9 @@ inputes.addEventListener("keydown", function(event) {
         event.preventDefault();
         moveDirectionX = 1;
     }
-    if (event.key === "ArrowUp") {
-        event.preventDefault();
-        moveDirectionY = -1;
-    }
-    if (event.key === "ArrowDown") {
-        event.preventDefault();
-        moveDirectionY = 1;
-    }
+
+    
+
 });
 
 inputes.addEventListener("keyup", function(event) {
@@ -72,8 +79,8 @@ inputes.addEventListener("keyup", function(event) {
 });
 
 setInterval(function() {
-   if (!(visible(igloo))) {
-        return;
+   if (doElsCollide(ground, igloo)) {
+      moveDirectionY = 1;
    } else {}
     if (moveDirectionX !== 0) {
         igloo.style.left = (parseInt(igloo.style.left, 10) + (moveDirectionX * moveAmount)) + "px";
@@ -82,33 +89,7 @@ setInterval(function() {
         igloo.style.top = (parseInt(igloo.style.top, 10) + (moveDirectionY * moveAmount)) + "px";
     }
 }, moveInterval);
-setInterval(function() {
-    var rect = igloo.getBoundingClientRect();
 
-    // Prevent moving out of the left and right boundaries
-    if (moveDirectionX !== 0) {
-        var newLeft = parseInt(igloo.style.left, 10) + (moveDirectionX * moveAmount);
-        if (newLeft >= 0 && newLeft + rect.width <= window.innerWidth) {
-            igloo.style.left = newLeft + "px";
-        } else if (newLeft < 0) {
-            igloo.style.left = "0px";
-        } else if (newLeft + rect.width > window.innerWidth) {
-            igloo.style.left = (window.innerWidth - rect.width) + "px";
-        }
-    }
-
-    // Prevent moving out of the top and bottom boundaries
-    if (moveDirectionY !== 0) {
-        var newTop = parseInt(igloo.style.top, 10) + (moveDirectionY * moveAmount);
-        if (newTop >= 0 && newTop + rect.height <= window.innerHeight) {
-            igloo.style.top = newTop + "px";
-        } else if (newTop < 0) {
-            igloo.style.top = "0px";
-        } else if (newTop + rect.height > window.innerHeight) {
-            igloo.style.top = (window.innerHeight - rect.height) + "px";
-        }
-    }
-}, moveInterval);
 </script>
 </body>
 </html>
