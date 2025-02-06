@@ -36,7 +36,7 @@
     let jumpSpeed = 5;
     function john() {
         if (doElsCollide(ground, igloo)) {
-            moveDirectionY = 0;
+            
             isJumpable = true;
         } 
         else if (jumpDirectionY !== 0) {
@@ -64,9 +64,9 @@
                     igloo.style.top = (parseInt(ground.style.top, 10) - igloo.offsetHeight) + "px"; // Ensure the player is exactly on the ground
                 jumpDirectionY = 0; // Stop moving
                 isJumping = false;
-                jumpSpeed = 5
+                jumpSpeed = 5;
                 clearTimeout(marvin)
-                
+                moveAmount = Math.abs(jumpSpeed);
                 
                 
                 return;
