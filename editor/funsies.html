@@ -54,28 +54,17 @@
     
         function executeJump() {
             igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * jumpSpeed)) + "px";
-            if (jumpSpeed < 35) {
+            
                 jumpDirectionY = -1; // Move up
                 john();
                 setTimeout(executeJump, moveInterval);
                 jumpSpeed = jumpSpeed - gravity;
-            } else {
-                jumpDirectionY = 0; // Stop moving up
-                
-                setTimeout(executeFall, jumpSpeed - gravity);
-            }
-        }
-        function executeFall() {
-            if (parseInt(igloo.style.top, 10) < parseInt(ground.style.top, 10) - igloo.offsetHeight) {
-                jumpDirectionY = 1; // Move down
-                john();
-                setTimeout(executeFall, moveInterval);
-                jumpSpeed = jumpSpeed + gravity;
-            } else {
-                igloo.style.top = (parseInt(ground.style.top, 10) - igloo.offsetHeight) + "px"; // Ensure the player is exactly on the ground
+                if (parseInt(igloo.style.top, 10) > initialTop) {
+                    igloo.style.top = (parseInt(ground.style.top, 10) - igloo.offsetHeight) + "px"; // Ensure the player is exactly on the ground
                 jumpDirectionY = 0; // Stop moving
                 isJumping = false;
-            }
+            } else {}
+            
         }
         executeJump();
         
@@ -89,16 +78,16 @@
     let jumpDirectionY = 0;
     
     function doElsCollide(el1, el2) {
-        el1.offsetBottom = el1.offsetTop + el1.offsetHeight;
-        el1.offsetRight = el1.offsetLeft + el1.offsetWidth;
-        el2.offsetBottom = el2.offsetTop + el2.offsetHeight;
-        el2.offsetRight = el2.offsetLeft + el2.offsetWidth;
+    el1.offsetBottom = el1.offsetTop + el1.offsetHeight;
+    el1.offsetRight = el1.offsetLeft + el1.offsetWidth;
+    el2.offsetBottom = el2.offsetTop + el2.offsetHeight;
+    el2.offsetRight = el2.offsetLeft + el2.offsetWidth;
 
-        return !((el1.offsetBottom < el2.offsetTop) ||
-                (el1.offsetTop > el2.offsetBottom) ||
-                (el1.offsetRight < el2.offsetLeft) ||
-                (el1.offsetLeft > el2.offsetRight));
-    }
+    return !((el1.offsetBottom < el2.offsetTop) ||
+             (el1.offsetTop > el2.offsetBottom) ||
+             (el1.offsetRight < el2.offsetLeft) ||
+             (el1.offsetLeft > el2.offsetRight));
+}
     
     function visible(element) {
         const rect = element.getBoundingClientRect();
@@ -149,7 +138,7 @@
     });
     
     setInterval(function() {
-        if (doElsCollide(ground, igloo) || isJumping) {
+        if (doElsCollide(ground, igloo)) {
             moveDirectionY = 0;
             isJumpable = true;
         } else {
