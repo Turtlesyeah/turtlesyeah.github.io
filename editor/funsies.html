@@ -32,37 +32,46 @@
       }
    </script>
 <script>
+    let jumpSpeed = 5;
     function john() {
-        if (jumpDirectionY !== 0) {
-            igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * moveAmount)) + "px";
+        if (doElsCollide(ground, igloo)) {
+            moveDirectionY = 0;
+            isJumpable = true;
+        } 
+        else if (jumpDirectionY !== 0) {
+            igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * jumpSpeed)) + "px";
         }
     }
     
     function jump() {
+        wee = 0;
         isJumpable = false;
         isJumping = true;
         let jumpHeight = 80; // Adjust the height as needed
-        let jumpSpeed = 5; // Adjust the speed as needed
+         // Adjust the speed as needed
         let initialTop = parseInt(igloo.style.top, 10);
+        let gravity = 0.3;
     
         function executeJump() {
-            if (parseInt(igloo.style.top, 10) > initialTop - jumpHeight) {
+            igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * jumpSpeed)) + "px";
+            if (jumpSpeed < 35) {
                 jumpDirectionY = -1; // Move up
                 john();
-                setTimeout(executeJump, jumpSpeed);
-                jumpSpeed = jumpSpeed * 1.02;
+                setTimeout(executeJump, moveInterval);
+                jumpSpeed = jumpSpeed - gravity;
             } else {
                 jumpDirectionY = 0; // Stop moving up
                 
-                executeFall();
+                setTimeout(executeFall, jumpSpeed - gravity);
             }
         }
         function executeFall() {
-            if (parseInt(igloo.style.top, 10) !== initialTop) {
+            if (parseInt(igloo.style.top, 10) <= initialTop) {
                 jumpDirectionY = 1; // Move up
                 john();
-                setTimeout(executeFall, jumpSpeed);
-                jumpSpeed = jumpSpeed / 1.02;
+                setTimeout(executeFall, moveInterval);
+                
+                jumpSpeed = jumpSpeed + gravity;
             } else {
                 jumpDirectionY = 0; // Stop moving up
                 isJumping = false;
@@ -102,10 +111,10 @@
     }
     
     igloo.style.left = "0px"; // Initialize the left position
-    igloo.style.top = "0px"; // Initialize the top position
+    igloo.style.top = "540px"; // Initialize the top position
     
     let moveAmount = 1; // Amount to move each step
-    let moveInterval = 5; // Time between each step in milliseconds
+    let moveInterval = 10; // Time between each step in milliseconds
     let moveDirectionX = 0; // -1 for left, 1 for right, 0 for no movement
     let moveDirectionY = 0; // -1 for up, 1 for down, 0 for no movement
     
