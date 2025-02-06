@@ -18,8 +18,8 @@
 </head>
 <body id="thebody">
    
-   <p id="player" class="player">:)</p>
-   <div class="player" id="ground" style="height: 40px; width: 4000px; background-color: green; top: 580px; margin-left: -8px;" ></div>
+   <p id="player" class="player">:D</p>
+   <div class="player" id="ground" style="height: 40px; width: 100px; background-color: green; top: 580px; margin-left: -8px;" ></div>
    <script>
       window.addEventListener("error", handleError, true);
       
@@ -32,6 +32,7 @@
       }
    </script>
 <script>
+    function alerter(egg) {window.alert(egg);}
     let jumpSpeed = 5;
     function john() {
         if (doElsCollide(ground, igloo)) {
@@ -51,19 +52,25 @@
          // Adjust the speed as needed
         let initialTop = parseInt(igloo.style.top, 10);
         let gravity = 0.3;
-    
+        let marvin;
         function executeJump() {
             igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * jumpSpeed)) + "px";
             
                 jumpDirectionY = -1; // Move up
                 john();
-                setTimeout(executeJump, moveInterval);
+                
                 jumpSpeed = jumpSpeed - gravity;
                 if (parseInt(igloo.style.top, 10) > initialTop) {
                     igloo.style.top = (parseInt(ground.style.top, 10) - igloo.offsetHeight) + "px"; // Ensure the player is exactly on the ground
                 jumpDirectionY = 0; // Stop moving
                 isJumping = false;
-            } else {}
+                jumpSpeed = 5
+                clearTimeout(marvin)
+                
+                
+                
+                return;
+            } else {marvin = setTimeout(executeJump, moveInterval);}
             
         }
         executeJump();
@@ -116,13 +123,11 @@
             event.preventDefault();
             moveDirectionX = 1;
         }
-        if (event.key === "ArrowUp" && isJumpable && !isJumping) {
+        if (event.key === "ArrowUp" && isJumpable) {
             event.preventDefault();
+            
             jump();
-        }
-        if (event.key === "ArrowDown") {
-            event.preventDefault();
-            moveDirectionY = 1;
+            
         }
     });
     
