@@ -66,14 +66,14 @@
             }
         }
         function executeFall() {
-            if (parseInt(igloo.style.top, 10) <= initialTop) {
-                jumpDirectionY = 1; // Move up
+            if (parseInt(igloo.style.top, 10) < parseInt(ground.style.top, 10) - igloo.offsetHeight) {
+                jumpDirectionY = 1; // Move down
                 john();
                 setTimeout(executeFall, moveInterval);
-                
                 jumpSpeed = jumpSpeed + gravity;
             } else {
-                jumpDirectionY = 0; // Stop moving up
+                igloo.style.top = (parseInt(ground.style.top, 10) - igloo.offsetHeight) + "px"; // Ensure the player is exactly on the ground
+                jumpDirectionY = 0; // Stop moving
                 isJumping = false;
             }
         }
@@ -93,11 +93,11 @@
         el1.offsetRight = el1.offsetLeft + el1.offsetWidth;
         el2.offsetBottom = el2.offsetTop + el2.offsetHeight;
         el2.offsetRight = el2.offsetLeft + el2.offsetWidth;
-    
+
         return !((el1.offsetBottom < el2.offsetTop) ||
-                 (el1.offsetTop > el2.offsetBottom) ||
-                 (el1.offsetRight < el2.offsetLeft) ||
-                 (el1.offsetLeft > el2.offsetRight));
+                (el1.offsetTop > el2.offsetBottom) ||
+                (el1.offsetRight < el2.offsetLeft) ||
+                (el1.offsetLeft > el2.offsetRight));
     }
     
     function visible(element) {
