@@ -20,6 +20,7 @@
    
    <p id="player" class="player">:D</p>
    <div class="player" id="ground" style="height: 40px; width: 100px; background-color: green; top: 580px; margin-left: -8px;" ></div>
+   <div class="player" id="ground2" style="height: 40px; width: 100px; background-color: green; top: 580px; margin-left: -8px; left: 350px" ></div>
    <script>
       window.addEventListener("error", handleError, true);
       
@@ -30,133 +31,129 @@
             alert("error: "+evt.type+" from element: "+(evt.srcElement || evt.target));
           }
       }
-   </script>
-<script>
-    function alerter(egg) {window.alert(egg);}
-    let jumpSpeed = 5;
-    function john() {
-        if (doElsCollide(ground, igloo)) {
-            
-            isJumpable = true;
-        } 
-        else if (jumpDirectionY !== 0) {
-            igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * jumpSpeed)) + "px";
-        }
-    }
-    
-    function jump() {
-        wee = 0;
-        isJumpable = false;
-        isJumping = true;
-        let jumpHeight = 80; // Adjust the height as needed
-         // Adjust the speed as needed
-        let initialTop = parseInt(igloo.style.top, 10);
-        let gravity = 0.3;
-        let marvin;
-        function executeJump() {
-            igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * jumpSpeed)) + "px";
-            
-                jumpDirectionY = -1; // Move up
-                john();
-                
-                jumpSpeed = jumpSpeed - gravity;
-                if (parseInt(igloo.style.top, 10) > initialTop) {
-                    igloo.style.top = (parseInt(ground.style.top, 10) - igloo.offsetHeight) + "px"; // Ensure the player is exactly on the ground
-                jumpDirectionY = 0; // Stop moving
-                isJumping = false;
-                jumpSpeed = 5;
-                clearTimeout(marvin)
-                moveAmount = Math.abs(jumpSpeed);
-                
-                
-                return;
-            } else {marvin = setTimeout(executeJump, moveInterval);}
-            
-        }
-        executeJump();
-        
-    }
-    
-    let ground = document.getElementById("ground");
-    let igloo = document.getElementById("player");
-    let inputes = document.getElementById("thebody");
-    let isJumpable = false;
-    let isJumping = false;
-    let jumpDirectionY = 0;
-    
-    function doElsCollide(el1, el2) {
-    el1.offsetBottom = el1.offsetTop + el1.offsetHeight;
-    el1.offsetRight = el1.offsetLeft + el1.offsetWidth;
-    el2.offsetBottom = el2.offsetTop + el2.offsetHeight;
-    el2.offsetRight = el2.offsetLeft + el2.offsetWidth;
 
-    return !((el1.offsetBottom < el2.offsetTop) ||
-             (el1.offsetTop > el2.offsetBottom) ||
-             (el1.offsetRight < el2.offsetLeft) ||
-             (el1.offsetLeft > el2.offsetRight));
-}
-    
-    function visible(element) {
-        const rect = element.getBoundingClientRect();
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-    }
-    
-    igloo.style.left = "0px"; // Initialize the left position
-    igloo.style.top = "540px"; // Initialize the top position
-    
-    let moveAmount = 1; // Amount to move each step
-    let moveInterval = 10; // Time between each step in milliseconds
-    let moveDirectionX = 0; // -1 for left, 1 for right, 0 for no movement
-    let moveDirectionY = 0; // -1 for up, 1 for down, 0 for no movement
-    
-    inputes.addEventListener("keydown", function(event) {
-        if (event.key === "ArrowLeft") {
-            event.preventDefault();
-            moveDirectionX = -1;
-        }
-        if (event.key === "ArrowRight") {
-            event.preventDefault();
-            moveDirectionX = 1;
-        }
-        if (event.key === "ArrowUp" && isJumpable) {
-            event.preventDefault();
-            
-            jump();
-            
-        }
-    });
-    
-    inputes.addEventListener("keyup", function(event) {
-        if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-            event.preventDefault();
-            moveDirectionX = 0;
-        }
-        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-            event.preventDefault();
-            moveDirectionY = 0;
-        }
-    });
-    
-    setInterval(function() {
-        if (doElsCollide(ground, igloo)) {
-            moveDirectionY = 0;
-            isJumpable = true;
-        } else {
-            moveDirectionY = 1;
-            isJumpable = false;
-        }
-        if (moveDirectionX !== 0) {
-            igloo.style.left = (parseInt(igloo.style.left, 10) + (moveDirectionX * moveAmount)) + "px";
-        }
-        if (moveDirectionY !== 0) {
-            igloo.style.top = (parseInt(igloo.style.top, 10) + (moveDirectionY * moveAmount)) + "px";
-        }
-    }, moveInterval);
-    </script>
+      function alerter(egg) {window.alert(egg);}
+      
+      
+      function jump(jumpSpeed) {
+          wee = 0;
+          isJumpable = false;
+          isJumping = true;
+          let jumpHeight = 80; // Adjust the height as needed
+          let initialTop = parseInt(igloo.style.top, 10);
+          let gravity = 0.3;
+          let marvin;
+          let originalSpeed = jumpSpeed;
+          function john() {
+          if (doElsCollide(ground, igloo)) {
+              isJumpable = true;
+          } 
+          else if (jumpDirectionY !== 0) {
+              igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * jumpSpeed)) + "px";
+          }
+      }
+          function executeJump() {
+              igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * jumpSpeed)) + "px";
+              jumpDirectionY = -1; // Move up
+              john();
+              jumpSpeed = jumpSpeed - gravity;
+              if (parseInt(igloo.style.top, 10) > initialTop) {
+                  igloo.style.top = (parseInt(ground.style.top, 10) - igloo.offsetHeight) + "px"; // Ensure the player is exactly on the ground
+                  jumpDirectionY = 0; // Stop moving
+                  isJumping = false;
+                  isJumpable = true; // Ensure jumpable again
+                  clearTimeout(marvin); // Stop the timeout when the jump is finished
+                  jumpSpeed = originalSpeed; // Reset jump speed to initial value
+              } else {
+                  marvin = setTimeout(executeJump, moveInterval); // Store the timeout ID
+              }
+          }
+          executeJump();
+      }
+      
+      let ground = document.getElementById("ground");
+      let igloo = document.getElementById("player");
+      let inputes = document.getElementById("thebody");
+      let isJumpable = false;
+      let isJumping = false;
+      let jumpDirectionY = 0;
+      
+      
+      function doElsCollide(el1, el2) {
+          el1.offsetBottom = el1.offsetTop + el1.offsetHeight;
+          el1.offsetRight = el1.offsetLeft + el1.offsetWidth;
+          el2.offsetBottom = el2.offsetTop + el2.offsetHeight;
+          el2.offsetRight = el2.offsetLeft + el2.offsetWidth;
+
+          return !((el1.offsetBottom < el2.offsetTop) ||
+                   (el1.offsetTop > el2.offsetBottom) ||
+                   (el1.offsetRight < el2.offsetLeft) ||
+                   (el1.offsetLeft > el2.offsetRight));
+      }
+      
+      function visible(element) {
+          const rect = element.getBoundingClientRect();
+          return (
+              rect.top >= 0 &&
+              rect.left >= 0 &&
+              rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+              rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+          );
+      }
+      
+      igloo.style.left = "0px"; // Initialize the left position
+      igloo.style.top = "540px"; // Initialize the top position
+      
+      let moveAmount = 5; // Amount to move each step
+      let moveInterval = 10; // Time between each step in milliseconds
+      let moveDirectionX = 0; // -1 for left, 1 for right, 0 for no movement
+      let moveDirectionY = 0; // -1 for up, 1 for down, 0 for no movement
+      
+      inputes.addEventListener("keydown", function(event) {
+          if (event.key === "ArrowLeft") {
+              event.preventDefault();
+              moveDirectionX = -1;
+          }
+          if (event.key === "ArrowRight") {
+              event.preventDefault();
+              moveDirectionX = 1;
+          }
+          if (event.key === "ArrowUp" && isJumpable) {
+              event.preventDefault();
+              jump(5);
+          }
+      });
+      
+      inputes.addEventListener("keyup", function(event) {
+          if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+              event.preventDefault();
+              moveDirectionX = 0;
+          }
+          if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+              event.preventDefault();
+              moveDirectionY = 0;
+          }
+      });
+      
+      setInterval(function() {
+          if (doElsCollide(ground, igloo)) {
+              moveDirectionY = 0;
+              isJumpable = true;
+          } else {
+              moveDirectionY = 1;
+              isJumpable = false;
+          }
+          if (parseInt(igloo.style.top, 10) > 700) {
+            igloo.style.left = "0px"; // Initialize the left position
+            igloo.style.top = "540px"; // Initialize the top position
+          } else {}
+          if (moveDirectionX !== 0) {
+              igloo.style.left = (parseInt(igloo.style.left, 10) + (moveDirectionX * moveAmount)) + "px";
+          }
+          if (moveDirectionY !== 0 && !isJumping) { // Ensure general vertical movement only when not jumping
+              igloo.style.top = (parseInt(igloo.style.top, 10) + (moveDirectionY * moveAmount)) + "px";
+          }
+      }, moveInterval);
+   </script>
 </body>
 </html>
