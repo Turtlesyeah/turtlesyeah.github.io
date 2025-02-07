@@ -15,6 +15,7 @@
       writing-mode:vertical-rl;
    }
 </style>
+<link id="cool" rel="icon" type="image/x-icon" href="iconic.png">
 </head>
 <body id="thebody">
    
@@ -34,23 +35,7 @@
 
       function alerter(egg) {window.alert(egg);}
       
-      let collisionIntervals = {};
-
-      function addCollision(object) {
-          if (collisionIntervals[object.id]) {
-              clearInterval(collisionIntervals[object.id]);
-          }
-          collisionIntervals[object.id] = setInterval(function() {
-              if (doElsCollide(object, igloo)) {
-                  moveDirectionY = 0;
-                  isJumpable = true;
-              } else {
-                  moveDirectionY = 1;
-                  isJumpable = false;
-              }
-          }, moveInterval);
-      }
-
+      
       function jump(jumpSpeed) {
           wee = 0;
           isJumpable = false;
@@ -61,12 +46,13 @@
           let marvin;
           let originalSpeed = jumpSpeed;
           function john() {
-    if (doElsCollide(ground, igloo) || doElsCollide(ground2, igloo)) {
-        isJumpable = true;
-    } else if (jumpDirectionY !== 0) {
-        igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * jumpSpeed)) + "px";
-    }
-}
+          if (doElsCollide(ground, igloo)) {
+              isJumpable = true;
+          } 
+          else if (jumpDirectionY !== 0) {
+              igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * jumpSpeed)) + "px";
+          }
+      }
           function executeJump() {
               igloo.style.top = (parseInt(igloo.style.top, 10) + (jumpDirectionY * jumpSpeed)) + "px";
               jumpDirectionY = -1; // Move up
@@ -85,14 +71,14 @@
           }
           executeJump();
       }
-      
-      let ground = document.getElementById("ground");
       let ground2 = document.getElementById("ground2");
+      let ground = document.getElementById("ground");
       let igloo = document.getElementById("player");
       let inputes = document.getElementById("thebody");
       let isJumpable = false;
       let isJumping = false;
       let jumpDirectionY = 0;
+      
       
       function doElsCollide(el1, el2) {
           el1.offsetBottom = el1.offsetTop + el1.offsetHeight;
@@ -116,7 +102,7 @@
           );
       }
       
-      igloo.style.left = "0px"; // Initialize the left position
+      igloo.style.left = "300px"; // Initialize the left position
       igloo.style.top = "540px"; // Initialize the top position
       
       let moveAmount = 5; // Amount to move each step
@@ -149,15 +135,20 @@
               moveDirectionY = 0;
           }
       });
-      
-      setInterval(function() {
-          if (doElsCollide(ground, igloo) || doElsCollide(ground2, igloo)) {
+      function addCollision(objection) {
+        
+        if (doElsCollide(objection, igloo)) {
               moveDirectionY = 0;
               isJumpable = true;
           } else {
               moveDirectionY = 1;
               isJumpable = false;
           }
+          
+      }
+      setInterval(function() {
+          addCollision(ground);
+          addCollision(ground2);
           if (parseInt(igloo.style.top, 10) > 700) {
             igloo.style.left = "0px"; // Initialize the left position
             igloo.style.top = "540px"; // Initialize the top position
@@ -169,22 +160,6 @@
               igloo.style.top = (parseInt(igloo.style.top, 10) + (moveDirectionY * moveAmount)) + "px";
           }
       }, moveInterval);
-
-      // Function to process variables
-      function processVariables(vars) {
-          console.log("Processing variables: ", vars);
-          // Add your logic here
-      }
-
-      // Create an array of variables
-      let variablesArray = [5, 0.3, moveAmount, moveInterval];
-      
-      // Call the function with the array
-      processVariables(variablesArray);
-
-      // Add collision detection for both ground elements
-      addCollision(ground);
-      addCollision(ground2);
    </script>
 </body>
 </html>
