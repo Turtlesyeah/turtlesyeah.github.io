@@ -36,8 +36,22 @@ function create() {
 
     // Add collision between the player and the ground
     this.physics.add.collider(player, ground);
+
+    // Set up cursor keys for input
+    cursors = this.input.keyboard.createCursorKeys();
 }
 
 function update() {
-    // Handle player movement here
+    // Handle player movement
+    if (cursors.left.isDown) {
+        player.setVelocityX(-160);
+    } else if (cursors.right.isDown) {
+        player.setVelocityX(160);
+    } else {
+        player.setVelocityX(0);
+    }
+
+    if (cursors.up.isDown && player.body.touching.down) {
+        player.setVelocityY(-330);
+    }
 }
