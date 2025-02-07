@@ -81,16 +81,16 @@
       
       
       function doElsCollide(el1, el2) {
-    el1.offsetBottom = el1.offsetTop + el1.offsetHeight;
-    el1.offsetRight = el1.offsetLeft + el1.offsetWidth;
-    el2.offsetBottom = el2.offsetTop + el2.offsetHeight;
-    el2.offsetRight = el2.offsetLeft + el2.offsetWidth;
+          el1.offsetBottom = el1.offsetTop + el1.offsetHeight;
+          el1.offsetRight = el1.offsetLeft + el1.offsetWidth;
+          el2.offsetBottom = el2.offsetTop + el2.offsetHeight;
+          el2.offsetRight = el2.offsetLeft + el2.offsetWidth;
 
-    return !((el1.offsetBottom < el2.offsetTop) ||
-             (el1.offsetTop > el2.offsetBottom) ||
-             (el1.offsetRight < el2.offsetLeft) ||
-             (el1.offsetLeft > el2.offsetRight));
-}
+          return !((el1.offsetBottom < el2.offsetTop) ||
+                   (el1.offsetTop > el2.offsetBottom) ||
+                   (el1.offsetRight < el2.offsetLeft) ||
+                   (el1.offsetLeft > el2.offsetRight));
+      }
       
       function visible(element) {
           const rect = element.getBoundingClientRect();
@@ -136,57 +136,35 @@
           }
       });
       function addCollision(elements) {
-    let collisionDetected = { top: false, bottom: false, left: false, right: false };
-
+    let collisionDetected = false;
     for (let element of elements) {
         if (doElsCollide(element, igloo)) {
-            let el1Rect = igloo.getBoundingClientRect();
-            let el2Rect = element.getBoundingClientRect();
-
-            if (el1Rect.bottom > el2Rect.top && el1Rect.top < el2Rect.top) {
-                collisionDetected.bottom = true;
-            }
-            if (el1Rect.top < el2Rect.bottom && el1Rect.bottom > el2Rect.bottom) {
-                collisionDetected.top = true;
-            }
-            if (el1Rect.right > el2Rect.left && el1Rect.left < el2Rect.left) {
-                collisionDetected.right = true;
-            }
-            if (el1Rect.left < el2Rect.right && el1Rect.right > el2Rect.right) {
-                collisionDetected.left = true;
-            }
+            collisionDetected = true;
+            break;
         }
     }
-
-    if (collisionDetected.bottom) {
+    if (collisionDetected) {
+        
         moveDirectionY = 0;
         isJumpable = true;
     } else {
         moveDirectionY = 1;
         isJumpable = false;
     }
-
-    if (collisionDetected.left || collisionDetected.right) {
-        moveDirectionX = 0;
-    }
 }
-
-setInterval(function() {
-    addCollision([ground, ground2]);
-
-    if (parseInt(igloo.style.top, 10) > 700) {
-        igloo.style.left = "0px"; // Initialize the left position
-        igloo.style.top = "540px"; // Initialize the top position
-    }
-
-    if (moveDirectionX !== 0) {
-        igloo.style.left = (parseInt(igloo.style.left, 10) + (moveDirectionX * moveAmount)) + "px";
-    }
-
-    if (moveDirectionY !== 0 && !isJumping) { // Ensure general vertical movement only when not jumping
-        igloo.style.top = (parseInt(igloo.style.top, 10) + (moveDirectionY * moveAmount)) + "px";
-    }
-}, moveInterval);
+      setInterval(function() {
+        addCollision([ground, ground2]);
+          if (parseInt(igloo.style.top, 10) > 700) {
+            igloo.style.left = "0px"; // Initialize the left position
+            igloo.style.top = "540px"; // Initialize the top position
+          } else {}
+          if (moveDirectionX !== 0) {
+              igloo.style.left = (parseInt(igloo.style.left, 10) + (moveDirectionX * moveAmount)) + "px";
+          }
+          if (moveDirectionY !== 0 && !isJumping) { // Ensure general vertical movement only when not jumping
+              igloo.style.top = (parseInt(igloo.style.top, 10) + (moveDirectionY * moveAmount)) + "px";
+          }
+      }, moveInterval);
    </script>
 </body>
 </html>
