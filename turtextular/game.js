@@ -6,7 +6,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: false
+            debug: true // Enable debug to see collision boxes
         }
     },
     scene: {
@@ -21,9 +21,9 @@ var player;
 var cursors;
 
 function preload() {
-    // Load assets here
-    this.load.image('player', 'path/to/player.png'); // Replace with actual path
-    this.load.image('ground', 'path/to/ground.png'); // Replace with actual path
+    // Load assets here - make sure these paths are correct
+    this.load.image('player', 'assets/player.png'); // Replace with actual path
+    this.load.image('ground', 'assets/ground.png'); // Replace with actual path
 }
 
 function create() {
