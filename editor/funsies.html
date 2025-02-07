@@ -135,20 +135,25 @@
               moveDirectionY = 0;
           }
       });
-      function addCollision(objection) {
+      function addCollision(elements) {
+    let collisionDetected = false;
+    for (let element of elements) {
+        if (doElsCollide(element, igloo)) {
+            collisionDetected = true;
+            break;
+        }
+    }
+    if (collisionDetected) {
         
-        if (doElsCollide(objection, igloo)) {
-              moveDirectionY = 0;
-              isJumpable = true;
-          } else {
-              moveDirectionY = 1;
-              isJumpable = false;
-          }
-          
-      }
+        moveDirectionY = 0;
+        isJumpable = true;
+    } else {
+        moveDirectionY = 1;
+        isJumpable = false;
+    }
+}
       setInterval(function() {
-          addCollision(ground);
-          addCollision(ground2);
+        addCollision([ground, ground2]);
           if (parseInt(igloo.style.top, 10) > 700) {
             igloo.style.left = "0px"; // Initialize the left position
             igloo.style.top = "540px"; // Initialize the top position
