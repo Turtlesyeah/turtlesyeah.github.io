@@ -17,6 +17,8 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
+var player;
+var cursors;
 
 function preload() {
     // Load assets here
@@ -30,7 +32,7 @@ function create() {
     ground.create(400, 568, 'ground').setScale(2).refreshBody(); // Adjust as needed
 
     // Create the player
-    var player = this.physics.add.sprite(100, 450, 'player');
+    player = this.physics.add.sprite(100, 450, 'player');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
 
