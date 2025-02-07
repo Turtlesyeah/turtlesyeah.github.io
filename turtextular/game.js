@@ -53,7 +53,8 @@ function update() {
         player.setVelocityX(0);
     }
 
-    if (cursors.up.isDown) {
+    // Jump if the up arrow is pressed and the player is touching the ground
+    if (cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-330);
     }
 }
