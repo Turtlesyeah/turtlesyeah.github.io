@@ -29,7 +29,7 @@ function preload() {
 function create() {
     // Create the ground
     var ground = this.physics.add.staticGroup();
-    ground.create(400, 568, 'ground').setScale(2).refreshBody(); // Adjust as needed
+    ground.create(400, 568, 'ground').setScale(10, 2).refreshBody(); // Adjust as needed
     
     // Create the player
     player = this.physics.add.sprite(400, 450, 'player');
