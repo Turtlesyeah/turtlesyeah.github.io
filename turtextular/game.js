@@ -30,7 +30,7 @@ function create() {
     // Create the ground
     var ground = this.physics.add.staticGroup();
     ground.create(400, 568, 'ground').setScale(2).refreshBody(); // Adjust as needed
-
+    player.x = ground.x;
     // Create the player
     player = this.physics.add.sprite(100, 450, 'player');
     player.setBounce(0.2);
