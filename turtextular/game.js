@@ -35,19 +35,28 @@ function create() {
     // Create the ground
     this.cameras.main.setBackgroundColor('#fffbe0');
     var ground = this.physics.add.staticGroup();
-    ground.create(400, 638, 'ground').setScale(1, 0.1).refreshBody(); // Adjust as needed
+    
+    // Tile the ground 4 times to the left
+    var x = 4000; // starting x position
+    var y = 638; // y position
+    var spacing = 2048; // width of each ground tile, adjust as needed
+
+    for (var i = 0; i < 10; i++) {
+        ground.create(x - (i * spacing), y, 'ground').setScale(1, 0.2).refreshBody();
+    }
     
     // Create the player
     player = this.physics.add.sprite(400, 450, 'playerright');
     
     player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
+    player.setCollideWorldBounds(false);
 
     // Add collision between the player and the ground
     this.physics.add.collider(player, ground);
 
     // Set up cursor keys for input
     cursors = this.input.keyboard.createCursorKeys();
+    this.cameras.main.startFollow(player, true, 1, 1, 0, 150);
 }
 
 function update() {
