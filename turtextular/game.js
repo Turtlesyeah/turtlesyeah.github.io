@@ -1,6 +1,8 @@
 width = window.innerWidth * window.devicePixelRatio;
 height = window.innerHeight * window.devicePixelRatio;
-
+function generateplane() {
+    
+}
 
 var config = {
     type: Phaser.AUTO,
@@ -32,7 +34,7 @@ function preload() {
 }
 
 function create() {
-    // Create the ground
+    var i = 0;
     this.cameras.main.setBackgroundColor('#fffbe0');
     var ground = this.physics.add.staticGroup();
     
@@ -62,13 +64,16 @@ function create() {
 function update() {
     // Handle player movement
     if (cursors.left.isDown) {
-        player.setVelocityX(-160);
+        player.setVelocityX(-1600);
         player.setTexture('playerleft');
     } else if (cursors.right.isDown) {
-        player.setVelocityX(160);
+        player.setVelocityX(1600);
         player.setTexture('playerright');
     } else {
         player.setVelocityX(0);
+    }
+    if(player.y > 900) {
+        player.setPosition(400, 450);
     }
 
     // Jump if the up arrow is pressed and the player is touching the ground
