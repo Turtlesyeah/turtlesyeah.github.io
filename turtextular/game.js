@@ -34,22 +34,14 @@ function preload() {
 }
 
 function create() {
-    var i = 0;
+    // Existing code
     this.cameras.main.setBackgroundColor('#fffbe0');
     var ground = this.physics.add.staticGroup();
-    
-    // Tile the ground 4 times to the left
-    var x = 4000; // starting x position
-    var y = 638; // y position
-    var spacing = 2048; // width of each ground tile, adjust as needed
+    // Initial ground tile creation
+    createGroundTile(this, ground, 4000, 638);
 
-    for (var i = 0; i < 10; i++) {
-        ground.create(x - (i * spacing), y, 'ground').setScale(1, 0.2).refreshBody();
-    }
-    
     // Create the player
     player = this.physics.add.sprite(400, 450, 'playerright');
-    
     player.setBounce(0.2);
     player.setCollideWorldBounds(false);
 
@@ -59,7 +51,15 @@ function create() {
     // Set up cursor keys for input
     cursors = this.input.keyboard.createCursorKeys();
     this.cameras.main.startFollow(player, true, 1, 1, 0, 150);
+
+    // Store ground group for use in update function
+    this.ground = ground;
 }
+
+function createGroundTile(scene, groundGroup, x, y) {
+    groundGroup.create(x, y, 'ground').setScale(1, 0.2).refreshBody();
+}
+
 
 function update() {
     // Handle player movement
@@ -80,4 +80,10 @@ function update() {
     if (cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-240);
     }
-}
+    const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
+
+    // Assuming ground tiles are spaced 2048 units apart
+    if (player.x > cameraRightEdge - 2048) {
+        const newTileX = cameraRightEdge + 2048;
+        createGroundTile(this, this.ground, newTileX, 638);
+    }}
