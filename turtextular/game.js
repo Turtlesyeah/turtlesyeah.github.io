@@ -38,7 +38,9 @@ function create() {
     this.cameras.main.setBackgroundColor('#fffbe0');
     var ground = this.physics.add.staticGroup();
     // Initial ground tile creation
-    createGroundTile(this, ground, 4000, 638);
+    var initialX = 4000;
+    var spacing = 2048;
+    
 
     // Create the player
     player = this.physics.add.sprite(400, 450, 'playerright');
@@ -47,6 +49,7 @@ function create() {
 
     // Add collision between the player and the ground
     this.physics.add.collider(player, ground);
+    createGroundTile(this, ground, 400, 600);
 
     // Set up cursor keys for input
     cursors = this.input.keyboard.createCursorKeys();
@@ -57,9 +60,10 @@ function create() {
 }
 
 function createGroundTile(scene, groundGroup, x, y) {
-    groundGroup.create(x, y, 'ground').setScale(1, 0.2).refreshBody();
+    let tile = groundGroup.create(x, y, 'ground').setScale(1, 0.2).refreshBody();
+    window.alert(`Created ground tile at (${x}, ${y})`);
+    return tile;
 }
-
 
 function update() {
     // Handle player movement
@@ -72,7 +76,7 @@ function update() {
     } else {
         player.setVelocityX(0);
     }
-    if(player.y > 900) {
+    if (player.y > 900) {
         player.setPosition(400, 450);
     }
 
@@ -80,10 +84,19 @@ function update() {
     if (cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-240);
     }
+
+    // Check if a new ground tile should be created
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
 
     // Assuming ground tiles are spaced 2048 units apart
-    if (player.x > cameraRightEdge - 2048) {
+    if (player.x > cameraRightEdge - 2048 && !this.tileCreated) {
         const newTileX = cameraRightEdge + 2048;
         createGroundTile(this, this.ground, newTileX, 638);
-    }}
+        this.tileCreated = true; // Set the flag to prevent continuous tile creation
+    }
+
+    // Reset the flag when the player moves away from the tile creation condition
+    if (player.x < cameraRightEdge - 2048) {
+        this.tileCreated = false;
+    }
+}
