@@ -60,11 +60,22 @@ function create() {
 }
 
 function createGroundTile(scene, groundGroup, x, y) {
-    let tile = groundGroup.create(x, y, 'ground').setScale(1, 0.2).refreshBody();
-    window.alert(`Created ground tile at (${x}, ${y})`);
-    return tile;
+     tile = groundGroup.create(x, y, 'ground').setScale(1, 0.2).refreshBody();
+     
+    
+    
 }
 
+function checkElementAtPosition(group, x, y) {
+    const children = group.getChildren();
+    for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+        if (child.x === x && child.y === y) {
+            return true; // Element found at the position
+        } else{return false;}
+    }
+    
+}
 function update() {
     // Handle player movement
     if (cursors.left.isDown) {
@@ -85,18 +96,17 @@ function update() {
         player.setVelocityY(-240);
     }
 
-    // Check if a new ground tile should be created
+    let oldTileX;// Check if a new ground tile should be created
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
-
+    const element = checkElementAtPosition(this.ground, cameraRightEdge, 638);
     // Assuming ground tiles are spaced 2048 units apart
-    if (player.x > cameraRightEdge - 2048 && !this.tileCreated) {
-        const newTileX = cameraRightEdge + 2048;
+    if (!element) {
+        const newTileX = oldTileX + 2048;
         createGroundTile(this, this.ground, newTileX, 638);
-        this.tileCreated = true; // Set the flag to prevent continuous tile creation
+        oldTileX = newTileX;
+        
     }
 
     // Reset the flag when the player moves away from the tile creation condition
-    if (player.x < cameraRightEdge - 2048) {
-        this.tileCreated = false;
-    }
+    
 }
