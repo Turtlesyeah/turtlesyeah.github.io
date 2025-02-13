@@ -37,13 +37,12 @@ function create() {
     this.cameras.main.setBackgroundColor('#fffbe0');
     var ground = this.physics.add.staticGroup();
     // Initial ground tile creation
-    
-    oldTileX = 400;
-    ground.create(400, 650, 'ground').setScale(1, 0.2).refreshBody();
-    ground.create(2448, 650, 'ground').setScale(1, 0.2).refreshBody();
-    ground.create(4496, 650, 'ground').setScale(1, 0.2).refreshBody();
-    
-    
+    createGroundTile(this, ground, 400, 650);
+    createGroundTile(this, ground, 2448, 650);
+    createGroundTile(this, ground, 4496, 650);
+
+    oldTileX = 4496; // Set oldTileX to the last created tile's position
+
     // Create the player
     player = this.physics.add.sprite(400, 450, 'playerright');
     player.setBounce(0.2);
@@ -85,6 +84,7 @@ function checkElementAtPosition(group, x, y) {
     text.setText('no element found');
     return false; // No element found at the position
 }
+
 var useEdge;
 var doingdir;
 function update() {
@@ -114,7 +114,6 @@ function update() {
     }
 
     // Check if a new ground tile should be created
-    
     const element = checkElementAtPosition(this.ground, (useEdge) + 100, 650);
 
     // Assuming ground tiles are spaced 2048 units apart
