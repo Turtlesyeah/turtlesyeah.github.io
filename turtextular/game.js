@@ -37,10 +37,13 @@ function create() {
     this.cameras.main.setBackgroundColor('#fffbe0');
     var ground = this.physics.add.staticGroup();
     // Initial ground tile creation
-    createGroundTile(this, ground, 4000, 638);
-    oldTileX = 4000;
+    
+    oldTileX = 400;
     ground.create(400, 650, 'ground').setScale(1, 0.2).refreshBody();
     ground.create(2448, 650, 'ground').setScale(1, 0.2).refreshBody();
+    ground.create(4496, 650, 'ground').setScale(1, 0.2).refreshBody();
+    
+    
     // Create the player
     player = this.physics.add.sprite(400, 450, 'playerright');
     player.setBounce(0.2);
@@ -55,13 +58,14 @@ function create() {
 
     // Store ground group for use in update function
     this.ground = ground;
-    const text = this.add.text(10, 10, 'Unset', { fontSize: '16px', fill: '#000' });
+
+    // Initialize the global text object
+    text = this.add.text(10, 10, 'Unset', { fontSize: '16px', fill: '#000' });
     text.setScrollFactor(0);
 }
 
 function createGroundTile(scene, groundGroup, x, y) {
     groundGroup.create(x, y, 'ground').setScale(1, 0.2).refreshBody();
-    
 }
 
 function checkElementAtPosition(group, x, y) {
@@ -81,15 +85,22 @@ function checkElementAtPosition(group, x, y) {
     text.setText('no element found');
     return false; // No element found at the position
 }
-
+var useEdge;
+var doingdir;
 function update() {
+    const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
+    var leftEdge = this.cameras.main.scrollX;
     // Handle player movement
     if (cursors.left.isDown) {
         player.setVelocityX(-1600);
         player.setTexture('playerleft');
+        useEdge = leftEdge;
+        doingdir = "left";
     } else if (cursors.right.isDown) {
         player.setVelocityX(1600);
         player.setTexture('playerright');
+        useEdge = cameraRightEdge;
+        doingdir = "right";
     } else {
         player.setVelocityX(0);
     }
@@ -103,12 +114,18 @@ function update() {
     }
 
     // Check if a new ground tile should be created
-    const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
-    const element = checkElementAtPosition(this.ground, cameraRightEdge, 650);
+    
+    const element = checkElementAtPosition(this.ground, (useEdge) + 100, 650);
 
     // Assuming ground tiles are spaced 2048 units apart
-    if (!element && player.x > oldTileX) {
-        const newTileX = oldTileX;
+    if (!element) {
+        var newTileX;
+        if(doingdir === "right") {
+           newTileX = oldTileX + 2048;
+        } else {
+            newTileX = oldTileX - 2048;
+        }
+
         createGroundTile(this, this.ground, newTileX, 650);
         oldTileX = newTileX;
     }
