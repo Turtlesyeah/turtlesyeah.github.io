@@ -1,21 +1,54 @@
+var item = {
+    mainCreate: function(itemid) {
+        
+    },
+    fluidCreate: function(fluidCreateid) {
+        
+    },
+    fluid: [],
+    main: [],
+
+    
+
+
+};
+var recipe = {
+    smelting: function(input, output) {
+
+    },
+    melting: function(input, output) {
+
+    },
+    electrosis: function(input, output) {
+
+    },
+    vaporize: function(input, output) {
+
+    },
+}
+
 //creating the items
-item.main('icrium');
-item.main('bauxanium');
-item.main('idivium');
-item.main('virium');
-item.main('gregite');
-item.main('aluminite');
-item.main('pilium');
-item.main('idivite');
-item.main('bauxenite');
-item.main('metal_scrap');
-item.main('icrite');
-item.main('rust');
+item.mainCreate('icrium');
+item.mainCreate('bauxanium');
+item.mainCreate('idivium');
+item.mainCreate('virium');
+item.mainCreate('gregite');
+item.mainCreate('aluminite');
+item.mainCreate('pilium');
+item.mainCreate('idivite');
+item.mainCreate('bauxenite');
+item.mainCreate('metal_scrap');
+item.mainCreate('icrite');
+item.mainCreate('rust');
 //creating the fluids
-item.fluid('virite');
-item.fluid('bauxenite_fluid');
-item.fluid('liquidovite');
+item.fluidCreate('virite');
+item.fluidCreate('bauxenite_fluidCreate');
+item.fluidCreate('liquidovite');
 
 
 //now, the smelting recipes
-recipe.smelting('metal_scrap', 'icrium')
+recipe.melting(item.main['idovite'], item.fluid['liquidovite']);
+recipe.melting(item.main['idovite'], item.fluid['liquidovite'], );
+
+recipe.smelting(item.main['metal_scrap'], item.main['icrium']);
+recipe.smelting(item.fluid["liquidovite"], item.main['idivium']);
