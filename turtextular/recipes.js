@@ -1,0 +1,1 @@
+recipe.smelting('metal_scrap', 'icrium')
