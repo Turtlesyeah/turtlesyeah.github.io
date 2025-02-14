@@ -1,33 +1,30 @@
 var item = {
     mainCreate: function(itemid) {
-        
+        this.main[itemid] = itemid;
     },
     fluidCreate: function(fluidCreateid) {
-        
+        this.fluid[fluidCreateid] = fluidCreateid;
     },
-    fluid: [],
-    main: [],
-
-    
-
-
+    fluid: {},
+    main: {},
 };
+
 var recipe = {
     smelting: function(input, output) {
-
+        console.log("Smelting", input, "into", output);
     },
     melting: function(input, output) {
-
+        console.log("Melting", input, "into", output);
     },
     electrosis: function(input, output) {
-
+        console.log("Electrosis", input, "into", output);
     },
     vaporize: function(input, output) {
-
+        console.log("Vaporizing", input, "into", output);
     },
 }
 
-//creating the items
+// Creating the items
 item.mainCreate('icrium');
 item.mainCreate('bauxanium');
 item.mainCreate('idivium');
@@ -40,15 +37,15 @@ item.mainCreate('bauxenite');
 item.mainCreate('metal_scrap');
 item.mainCreate('icrite');
 item.mainCreate('rust');
-//creating the fluids
+
+// Creating the fluids
 item.fluidCreate('virite');
 item.fluidCreate('bauxenite_fluidCreate');
 item.fluidCreate('liquidovite');
 
-
-//now, the smelting recipes
-recipe.melting(item.main['idovite'], item.fluid['liquidovite']);
-recipe.melting(item.main['idovite'], item.fluid['liquidovite'], );
+// Now, the smelting recipes
+recipe.melting(item.main['idivite'], item.fluid['liquidovite']);
+recipe.melting(item.main['idivite'], item.fluid['liquidovite']);
 
 recipe.smelting(item.main['metal_scrap'], item.main['icrium']);
-recipe.smelting(item.fluid["liquidovite"], item.main['idivium']);
+recipe.smelting(item.fluid['liquidovite'], item.main['idivium']);
