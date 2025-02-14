@@ -113,8 +113,11 @@ function update() {
         player.setVelocityY(-240);
     }
 
-    // Check if a new ground tile should be created
-    const element = checkElementAtPosition(this.ground, (useEdge) + 100, 650);
+    if(doingdir === "right") {
+        // Check if a new ground tile should be created
+        const element = checkElementAtPosition(this.ground, (useEdge) + 100, 650);
+    } else {// Check if a new ground tile should be created
+        const element = checkElementAtPosition(this.ground, (useEdge) - 100, 650);}
 
     // Assuming ground tiles are spaced 2048 units apart
     if (!element) {
