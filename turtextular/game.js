@@ -85,11 +85,11 @@ function checkElementAtPosition(group, x, y) {
         const childBottom = child.y + child.displayHeight / 2;
 
         if (x >= childLeft && x <= childRight && y >= childTop && y <= childBottom) {
-            text.setText('element found');
+            
             return true; // Element found at the position
         }
     }
-    text.setText('no element found');
+    
     return false; // No element found at the position
 }
 
@@ -126,17 +126,22 @@ function update() {
          element = checkElementAtPosition(this.ground, (useEdge) + 100, 650);
     } else {// Check if a new ground tile should be created
          element = checkElementAtPosition(this.ground, (useEdge) - 100, 650);}
-
+    var mormon = 0;
     var newTileX;// Assuming ground tiles are spaced 2048 units apart
     if (!element) {
         var newTileX;
+        text.setText('made ground element x ' + mormon);
+        mormon += 1;
         if(doingdir === "right") {
            newTileX = oldTileX + 2048;
         } else {
             newTileX = oldTileX - 2048;
         }
-
+        
+        
         createGroundTile(this, this.ground, newTileX, 650);
         oldTileX = newTileX;
+        
+        
     }
 }
