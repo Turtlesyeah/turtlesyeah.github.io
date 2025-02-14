@@ -40,6 +40,7 @@ item.mainCreate('bauxenite');
 item.mainCreate('metal_scrap');
 item.mainCreate('icrite');
 item.mainCreate('rust');
+item.mainCreate('quartzite');
 
 // Creating the fluids
 item.fluidCreate('virite');
@@ -55,7 +56,7 @@ recipe.smelting(item.main['metal_scrap'], item.main['icrium'], 100);
 recipe.smelting(item.fluid['liquidovite'], [item.main['idivium'], item.main['metal_scrap']], 90);
 recipe.smelting(item.fluid['bauxanite_fluid'], [item.main['bauxanium'], item.main['metal_scrap']], 95);
 recipe.electrosis(item.fluid['bauxanite_fluid'], [item.fluid["virite"], item.main['aluminite']]);
-recipe.electrosis(item.fluid['liquidovite'], item.fluid["fuel"]);
+recipe.electrosis(item.fluid['liquidovite'], [item.fluid["fuel"], item.main['quartzite']]);
 recipe.smelting(item.fluid['virite'], [item.main['virium'], item.main['gregite']], 80);
 recipe.vaporize(item.fluid['virite'], [item.main['pilium'], item.main['rust']], 1);
 
