@@ -1,3 +1,7 @@
+window.addEventListener("error", function (event) {
+    window.alert(`<p style="color: red;">Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename}</p>`);
+});
+
 var width = window.innerWidth * window.devicePixelRatio;
 var height = window.innerHeight * window.devicePixelRatio;
 var text;
@@ -33,34 +37,38 @@ function preload() {
 }
 
 function create() {
-    // Existing code
-    this.cameras.main.setBackgroundColor('#fffbe0');
-    var ground = this.physics.add.staticGroup();
-    // Initial ground tile creation
-    createGroundTile(this, ground, 400, 650);
-    createGroundTile(this, ground, 2448, 650);
-    createGroundTile(this, ground, 4496, 650);
+    try {
+        // Existing code
+        this.cameras.main.setBackgroundColor('#fffbe0');
+        var ground = this.physics.add.staticGroup();
+        // Initial ground tile creation
+        createGroundTile(this, ground, 400, 650);
+        createGroundTile(this, ground, 2448, 650);
+        createGroundTile(this, ground, 4496, 650);
 
-    oldTileX = 4496; // Set oldTileX to the last created tile's position
+        oldTileX = 4496; // Set oldTileX to the last created tile's position
 
-    // Create the player
-    player = this.physics.add.sprite(400, 450, 'playerright');
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(false);
+        // Create the player
+        player = this.physics.add.sprite(400, 450, 'playerright');
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(false);
 
-    // Add collision between the player and the ground
-    this.physics.add.collider(player, ground);
+        // Add collision between the player and the ground
+        this.physics.add.collider(player, ground);
 
-    // Set up cursor keys for input
-    cursors = this.input.keyboard.createCursorKeys();
-    this.cameras.main.startFollow(player, true, 1, 1, 0, 150);
+        // Set up cursor keys for input
+        cursors = this.input.keyboard.createCursorKeys();
+        this.cameras.main.startFollow(player, true, 1, 1, 0, 150);
 
-    // Store ground group for use in update function
-    this.ground = ground;
+        // Store ground group for use in update function
+        this.ground = ground;
 
-    // Initialize the global text object
-    text = this.add.text(10, 10, 'Unset', { fontSize: '16px', fill: '#000' });
-    text.setScrollFactor(0);
+        // Initialize the global text object
+        text = this.add.text(10, 10, 'Unset', { fontSize: '16px', fill: '#000' });
+        text.setScrollFactor(0);
+    } catch (error) {
+        console.error("Error in create function:", error);
+    }
 }
 
 function createGroundTile(scene, groundGroup, x, y) {
@@ -112,14 +120,14 @@ function update() {
     if (cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-240);
     }
-
+    var element;
     if(doingdir === "right") {
         // Check if a new ground tile should be created
-        const element = checkElementAtPosition(this.ground, (useEdge) + 100, 650);
+         element = checkElementAtPosition(this.ground, (useEdge) + 100, 650);
     } else {// Check if a new ground tile should be created
-        const element = checkElementAtPosition(this.ground, (useEdge) - 100, 650);}
+         element = checkElementAtPosition(this.ground, (useEdge) - 100, 650);}
 
-    // Assuming ground tiles are spaced 2048 units apart
+    var newTileX;// Assuming ground tiles are spaced 2048 units apart
     if (!element) {
         var newTileX;
         if(doingdir === "right") {

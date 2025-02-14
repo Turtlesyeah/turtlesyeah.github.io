@@ -24,5 +24,23 @@ function handleError(evt) {
 }
 </script>
 <script src="game.js"></script>
+<script>
+  (function () {
+    console.old = console.log;
+    var old = console.log;
+    var logger = document.getElementById('log');
+    console.log = function () {
+      for (var i = 0; i < arguments.length; i++) {
+        if (typeof arguments[i] == 'object') {
+            document.getElementById('log').innerHTML = ''
+            logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]);console.old.apply(void 0, arguments) + '<br />';
+        } else {
+            document.getElementById('log').innerHTML = ''
+            logger.innerHTML += arguments[i] + '<br />';
+        }
+      }
+    }
+  })();
+  </script>
 </body>
 </html>
