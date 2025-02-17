@@ -93,7 +93,7 @@ function checkElementAtPosition(group, x, y) {
     return false; // No element found at the position
 }
 var mormon = 0;
-var useEdge;
+var useEdge = 0;
 var doingdir = "right";
 function update() {
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
