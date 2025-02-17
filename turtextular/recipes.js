@@ -4,9 +4,12 @@ var item = {
     },
     fluidCreate: function(fluidCreateid) {
         this.fluid[fluidCreateid] = fluidCreateid;
-    },
+    }, 
     fluid: {},
     main: {},
+    spawnItem: function(spawnid, spawnx, spawny) {
+        
+    }
 };
 
 var recipe = {

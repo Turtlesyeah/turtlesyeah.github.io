@@ -1,16 +1,21 @@
 window.addEventListener("error", function (event) {
     window.alert(`<p style="color: red;">Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename}</p>`);
 });
+var enterKey;
 
-var width = window.innerWidth * window.devicePixelRatio;
-var height = window.innerHeight * window.devicePixelRatio;
 var text;
 function generateplane() {}
 
 var config = {
     type: Phaser.AUTO,
-    width: width,
-    height: height,
+    width: 1366,
+    height: 647,
+    scale: {
+        // Fit to window
+        mode: Phaser.Scale.FIT,
+        // Center vertically and horizontally
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
     physics: {
         default: 'arcade',
         arcade: {
@@ -29,15 +34,19 @@ var game = new Phaser.Game(config);
 var player;
 var cursors;
 var oldTileX;
+var inBuildMode = false;
 
 function preload() {
     this.load.image('playerleft', 'https://turtlesyeah.github.io/turtextular/assets/turtleleft.png'); // Replace with actual path
     this.load.image('playerright', 'https://turtlesyeah.github.io/turtextular/assets/turtleright.png'); // Replace with actual path
     this.load.image('ground', 'https://turtlesyeah.github.io/turtextular/assets/canvas.png'); // Replace with actual path
+    this.load.image('ore1', 'https://turtlesyeah.github.io/turtextular/assets/bauxenite.png'); // Replace with actual path
+
 }
 
 function create() {
     try {
+        
         // Existing code
         this.cameras.main.setBackgroundColor('#fffbe0');
         var ground = this.physics.add.staticGroup();
@@ -64,7 +73,7 @@ function create() {
         this.ground = ground;
 
         // Initialize the global text object
-        text = this.add.text(10, 10, 'Unset', { fontSize: '16px', fill: '#000' });
+        text = this.add.text(10, 10, 'made ground element x 0', { fontSize: '16px', fill: '#000' });
         text.setScrollFactor(0);
     } catch (error) {
         console.error("Error in create function:", error);
@@ -72,7 +81,15 @@ function create() {
 }
 
 function createGroundTile(scene, groundGroup, x, y) {
-    groundGroup.create(x, y, 'ground').setScale(1, 0.2).refreshBody();
+    let rand = randomNum(0, 5);
+    let textureName;
+    if(rand === 3) {
+        textureName = "ore1";
+    } 
+    else {
+        textureName = "ground";
+    }
+    groundGroup.create(x, y, textureName).setScale(1, 1).refreshBody();
 }
 
 function checkElementAtPosition(group, x, y) {
@@ -92,20 +109,31 @@ function checkElementAtPosition(group, x, y) {
     
     return false; // No element found at the position
 }
-var mormon = 0;
+var mormon = 1;
 var useEdge = 0;
 var doingdir = "right";
 function update() {
+    
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
     var leftEdge = this.cameras.main.scrollX;
+    if(inBuildMode && enterKey.isDown) {
+        inBuildMode = false;
+    } 
+    else if(!inBuildMode && enterKey.isDown) {
+        inbuildMode = true;
+    } else {}
+    if (inBuildMode) {
+        text.setText('in build mode');
+    } else {text.setText('not in build mode');}
+
     // Handle player movement
     if (cursors.left.isDown) {
-        player.setVelocityX(-1600);
+        player.setVelocityX(-16000);
         player.setTexture('playerleft');
         useEdge = leftEdge;
         doingdir = "left";
     } else if (cursors.right.isDown) {
-        player.setVelocityX(1600);
+        player.setVelocityX(16000);
         player.setTexture('playerright');
         useEdge = cameraRightEdge;
         doingdir = "right";
@@ -130,7 +158,7 @@ function update() {
     var newTileX;// Assuming ground tiles are spaced 2048 units apart
     if (!element) {
         var newTileX;
-        text.setText('made ground element x ' + mormon);
+        
         mormon += 1;
         if(doingdir === "right") {
            newTileX = oldTileX + 2048;
@@ -145,3 +173,10 @@ function update() {
         
     }
 }
+function randomNum(startVal, endVal) {
+    endVal = endVal - startVal;
+    returnVal = Math.floor(Math.random() * (endVal + 1) + startVal);
+    return returnVal;
+}
+
+
