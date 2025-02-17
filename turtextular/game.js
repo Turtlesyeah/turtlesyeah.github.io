@@ -34,7 +34,7 @@ var game = new Phaser.Game(config);
 var player;
 var cursors;
 var oldTileX;
-var inBuildMode = false;
+
 
 function preload() {
     this.load.image('playerleft', 'https://turtlesyeah.github.io/turtextular/assets/turtleleft.png'); // Replace with actual path
@@ -112,15 +112,16 @@ function checkElementAtPosition(group, x, y) {
 var mormon = 1;
 var useEdge = 0;
 var doingdir = "right";
+var inBuildMode = false;
 function update() {
     
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
     var leftEdge = this.cameras.main.scrollX;
-    if(inBuildMode && enterKey.isDown) {
+    if(inBuildMode && cursors.enter.isDown) {
         inBuildMode = false;
     } 
-    else if(!inBuildMode && enterKey.isDown) {
-        inbuildMode = true;
+    else if(!inBuildMode && cursors.enter.isDown) {
+        inBuildMode = true;
     } else {}
     if (inBuildMode) {
         text.setText('in build mode');
@@ -175,7 +176,7 @@ function update() {
 }
 function randomNum(startVal, endVal) {
     endVal = endVal - startVal;
-    returnVal = Math.floor(Math.random() * (endVal + 1) + startVal);
+    var returnVal = Math.floor(Math.random() * (endVal + 1) + startVal);
     return returnVal;
 }
 
