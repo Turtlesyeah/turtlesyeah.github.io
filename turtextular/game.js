@@ -92,9 +92,9 @@ function checkElementAtPosition(group, x, y) {
     
     return false; // No element found at the position
 }
-
+var mormon = 0;
 var useEdge;
-var doingdir;
+var doingdir = "right";
 function update() {
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
     var leftEdge = this.cameras.main.scrollX;
@@ -126,7 +126,7 @@ function update() {
          element = checkElementAtPosition(this.ground, (useEdge) + 100, 650);
     } else {// Check if a new ground tile should be created
          element = checkElementAtPosition(this.ground, (useEdge) - 100, 650);}
-    var mormon = 0;
+    
     var newTileX;// Assuming ground tiles are spaced 2048 units apart
     if (!element) {
         var newTileX;
