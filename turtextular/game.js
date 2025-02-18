@@ -34,7 +34,7 @@ var game = new Phaser.Game(config);
 var player;
 var cursors;
 var oldTileX;
-
+var enterKeyHeld = false;
 
 function preload() {
     this.load.image('playerleft', 'https://turtlesyeah.github.io/turtextular/assets/turtleleft.png'); // Replace with actual path
@@ -66,7 +66,13 @@ function create() {
         this.physics.add.collider(player, ground);
 
         // Set up cursor keys for input
-        cursors = this.input.keyboard.createCursorKeys();
+        cursors = this.input.keyboard.addKeys({
+            up: Phaser.Input.Keyboard.KeyCodes.UP,
+            down: Phaser.Input.Keyboard.KeyCodes.DOWN,
+            left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+            right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+            enter: Phaser.Input.Keyboard.KeyCodes.ENTER
+        });
         this.cameras.main.startFollow(player, true, 1, 1, 0, 150);
 
         // Store ground group for use in update function
@@ -81,7 +87,7 @@ function create() {
 }
 
 function createGroundTile(scene, groundGroup, x, y) {
-    let rand = randomNum(0, 5);
+    let rand = randomNum(0, 10);
     let textureName;
     if(rand === 3) {
         textureName = "ore1";
@@ -114,27 +120,27 @@ var useEdge = 0;
 var doingdir = "right";
 var inBuildMode = false;
 function update() {
-    
-    const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
-    var leftEdge = this.cameras.main.scrollX;
     if(inBuildMode && cursors.enter.isDown) {
         inBuildMode = false;
     } 
     else if(!inBuildMode && cursors.enter.isDown) {
         inBuildMode = true;
     } else {}
+    const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
+    var leftEdge = this.cameras.main.scrollX;
+
     if (inBuildMode) {
         text.setText('in build mode');
     } else {text.setText('not in build mode');}
 
     // Handle player movement
     if (cursors.left.isDown) {
-        player.setVelocityX(-16000);
+        player.setVelocityX(-1600);
         player.setTexture('playerleft');
         useEdge = leftEdge;
         doingdir = "left";
     } else if (cursors.right.isDown) {
-        player.setVelocityX(16000);
+        player.setVelocityX(1600);
         player.setTexture('playerright');
         useEdge = cameraRightEdge;
         doingdir = "right";
