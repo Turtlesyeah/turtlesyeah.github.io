@@ -2,7 +2,7 @@ window.addEventListener("error", function (event) {
     window.alert(`<p style="color: red;">Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename}</p>`);
 });
 var enterKey;
-
+var turtleObjects;
 var text;
 function generateplane() {}
 
@@ -56,6 +56,7 @@ function create() {
         this.cameras.main.setBackgroundColor('#fffbe0');
         var ground = this.physics.add.staticGroup();
         var turtleObjects = this.physics.add.staticGroup();
+        this.turtleObjects = turtleObjects;
         // Initial ground tile creation
         createTextureTile(this, ground, 400, 650, "norm");
         createTextureTile(this, ground, 2448, 650, "norm");

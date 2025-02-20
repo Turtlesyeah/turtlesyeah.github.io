@@ -2,7 +2,7 @@ window.addEventListener("error", function (event) {
     window.alert(`<p style="color: red;">Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename}</p>`);
 });
 var enterKey;
-
+var turtleObjects;
 var text;
 function generateplane() {}
 
@@ -35,13 +35,18 @@ var player;
 var cursors;
 var oldTileX;
 var enterKeyHeld = false;
+var summonFrame1 = true;
+var mouseX = mouseY = 0;
 
 function preload() {
     this.load.image('playerleft', 'https://turtlesyeah.github.io/turtextular/assets/turtleleft.png'); // Replace with actual path
     this.load.image('playerright', 'https://turtlesyeah.github.io/turtextular/assets/turtleright.png'); // Replace with actual path
     this.load.image('ground', 'https://turtlesyeah.github.io/turtextular/assets/canvas.png'); // Replace with actual path
     this.load.image('ore1', 'https://turtlesyeah.github.io/turtextular/assets/bauxenite.png'); // Replace with actual path
-
+    this.load.image('ore2', 'https://turtlesyeah.github.io/turtextular/assets/idovite.png');
+    this.load.image('drill_T1', 'https://turtlesyeah.github.io/turtextular/assets/drillt1.png');
+    this.load.image('drill_T1_build', 'https://turtlesyeah.github.io/turtextular/assets/drillt1_buildable.png'); // Replace with actual path
+    this.load.image('drill_T1_dont_build', 'https://turtlesyeah.github.io/turtextular/assets/drillt1_unbuildable.png');
 }
 
 function create() {
@@ -50,11 +55,16 @@ function create() {
         // Existing code
         this.cameras.main.setBackgroundColor('#fffbe0');
         var ground = this.physics.add.staticGroup();
+        var turtleObjects = this.physics.add.staticGroup();
+        this.turtleObjects = turtleObjects;
         // Initial ground tile creation
-        createGroundTile(this, ground, 400, 650);
-        createGroundTile(this, ground, 2448, 650);
-        createGroundTile(this, ground, 4496, 650);
-
+        createTextureTile(this, ground, 400, 650, "norm");
+        createTextureTile(this, ground, 2448, 650, "norm");
+        createTextureTile(this, ground, 4496, 650, "norm");
+        this.input.on('pointermove', function (pointer) {
+            mouseX = pointer.x;
+            mouseY = pointer.y;
+        });
         oldTileX = 4496; // Set oldTileX to the last created tile's position
 
         // Create the player
@@ -86,15 +96,21 @@ function create() {
     }
 }
 
-function createGroundTile(scene, groundGroup, x, y) {
-    let rand = randomNum(0, 10);
+function createTextureTile(scene, groundGroup, x, y, texture) {
+    let rand = randomNum(0, 20);
     let textureName;
     if(rand === 3) {
         textureName = "ore1";
     } 
+    else if (rand === 4 || rand === 5 || rand === 7) {
+        textureName = "ore2";
+    }
     else {
         textureName = "ground";
     }
+    if(texture !== "norm") {
+        textureName = texture;
+    } else {}
     groundGroup.create(x, y, textureName).setScale(1, 1).refreshBody();
 }
 
@@ -117,9 +133,10 @@ function checkElementAtPosition(group, x, y) {
 }
 var mormon = 1;
 var useEdge = 0;
+var doingdir = "right";
 var inBuildMode = false;
 document.addEventListener('keydown', function(event) {
-    if (event.code === 'Space') {
+    if (event.code === 'KeyE') {
         if(inBuildMode) {
             inBuildMode = false;
         } 
@@ -128,9 +145,7 @@ document.addEventListener('keydown', function(event) {
         } else {}
     }
 });
-var doingdir = "right";
 
-var pressedDown = false;
 function update() {
     
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
@@ -138,17 +153,23 @@ function update() {
 
     if (inBuildMode) {
         text.setText('in build mode');
-    } else if(!inBuildMode)
-        {text.setText('not in build mode');}
+        if(summonFrame1) {
+            createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1_build");
+            summonFrame1 = false;
+        } else{}
+    } else {
+        text.setText('not in build mode');
+        summonFrame1 = true;
+    }
 
     // Handle player movement
     if (cursors.left.isDown) {
-        player.setVelocityX(-160);
+        player.setVelocityX(-1600);
         player.setTexture('playerleft');
         useEdge = leftEdge;
         doingdir = "left";
     } else if (cursors.right.isDown) {
-        player.setVelocityX(160);
+        player.setVelocityX(1600);
         player.setTexture('playerright');
         useEdge = cameraRightEdge;
         doingdir = "right";
@@ -182,7 +203,7 @@ function update() {
         }
         
         
-        createGroundTile(this, this.ground, newTileX, 650);
+        createTextureTile(this, this.ground, newTileX, 650, "norm");
         oldTileX = newTileX;
         
         
