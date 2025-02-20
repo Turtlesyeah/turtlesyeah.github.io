@@ -153,7 +153,7 @@ function update() {
     if (inBuildMode) {
         text.setText('in build mode');
         if(summonFrame1) {
-            createTextureTile(this, turtleObjects, mouseX, mouseY, "drill_T1_build");
+            createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1_build");
             summonFrame1 = false;
         } else{}
     } else {
