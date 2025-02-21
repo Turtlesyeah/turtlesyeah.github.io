@@ -4,8 +4,14 @@ window.addEventListener("error", function (event) {
 var enterKey;
 var turtleObjects;
 var text;
-function generateplane() {}
-
+function detectLeftButton(evt) {
+    evt = evt || window.event;
+    if ("buttons" in evt) {
+        return evt.buttons == 1;
+    }
+    var button = evt.which || evt.button;
+    return button == 1;
+}
 var config = {
     type: Phaser.AUTO,
     width: 1366,
@@ -158,7 +164,10 @@ document.addEventListener('keydown', function(event) {
 });
 let currentBuildingTile;
 function update() {
-    
+    const isThereALeftClick = detectLeftButton();
+    if(inBuildMode && isThereALeftClick) {
+        inBuildMode = false;
+    }
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
     var leftEdge = this.cameras.main.scrollX;
 
