@@ -62,8 +62,8 @@ function create() {
         createTextureTile(this, ground, 2448, 650, "norm");
         createTextureTile(this, ground, 4496, 650, "norm");
         this.input.on('pointermove', function (pointer) {
-            mouseX = pointer.x;
-            mouseY = pointer.y;
+            mouseX = pointer.worldX;
+            mouseY = pointer.worldY;
         });
         oldTileX = 4496; // Set oldTileX to the last created tile's position
 
@@ -145,7 +145,7 @@ document.addEventListener('keydown', function(event) {
         } else {}
     }
 });
-
+let currentBuildingTile;
 function update() {
     
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
@@ -153,10 +153,13 @@ function update() {
 
     if (inBuildMode) {
         text.setText('in build mode');
+
         if(summonFrame1) {
-            createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1_build");
+            currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1_build");
             summonFrame1 = false;
-        } else{}
+        } else{
+            currentBuildingTile.setPosition(mouseX, mouseY);
+        }
     } else {
         text.setText('not in build mode');
         summonFrame1 = true;
