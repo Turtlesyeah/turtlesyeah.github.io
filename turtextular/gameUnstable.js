@@ -55,10 +55,11 @@ function create() {
         // Existing code
         this.cameras.main.setBackgroundColor('#fffbe0');
         var turtleObjects = this.physics.add.staticGroup();
-        var ground = this.physics.add.staticGroup();
-        ground.setDepth(0);
-        turtleObjects.setDepth(1);
+        turtleObjects.setDepth(0); // Set turtleObjects group to appear behind
         
+        // Create ground group and set depth
+        var ground = this.physics.add.staticGroup();
+        ground.setDepth(1); // Set ground group to appear in front
         this.turtleObjects = turtleObjects;
         // Initial ground tile creation
         createTextureTile(this, ground, 400, 650, "norm");
@@ -115,6 +116,12 @@ function createTextureTile(scene, groundGroup, x, y, texture) {
         textureName = texture;
     } else {}
     let outputItem = groundGroup.create(x, y, textureName).setScale(1, 1).refreshBody();
+    if(texture === "norm") {
+        outputItem.setDepth(1);
+    }
+    else {
+        outputItem.setDepth(0);
+    }
     return outputItem;
 }
 
@@ -160,6 +167,7 @@ function update() {
 
         if(summonFrame1) {
             currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1_build");
+            
             summonFrame1 = false;
         } else{
             currentBuildingTile.setPosition(mouseX, mouseY);

@@ -54,16 +54,20 @@ function create() {
         
         // Existing code
         this.cameras.main.setBackgroundColor('#fffbe0');
-        var ground = this.physics.add.staticGroup();
         var turtleObjects = this.physics.add.staticGroup();
+        turtleObjects.setDepth(0); // Set turtleObjects group to appear behind
+        
+        // Create ground group and set depth
+        var ground = this.physics.add.staticGroup();
+        ground.setDepth(1); // Set ground group to appear in front
         this.turtleObjects = turtleObjects;
         // Initial ground tile creation
         createTextureTile(this, ground, 400, 650, "norm");
         createTextureTile(this, ground, 2448, 650, "norm");
         createTextureTile(this, ground, 4496, 650, "norm");
         this.input.on('pointermove', function (pointer) {
-            mouseX = pointer.x;
-            mouseY = pointer.y;
+            mouseX = pointer.worldX;
+            mouseY = pointer.worldY;
         });
         oldTileX = 4496; // Set oldTileX to the last created tile's position
 
@@ -111,7 +115,14 @@ function createTextureTile(scene, groundGroup, x, y, texture) {
     if(texture !== "norm") {
         textureName = texture;
     } else {}
-    groundGroup.create(x, y, textureName).setScale(1, 1).refreshBody();
+    let outputItem = groundGroup.create(x, y, textureName).setScale(1, 1).refreshBody();
+    if(texture === "norm") {
+        outputItem.setDepth(1);
+    }
+    else {
+        outputItem.setDepth(0);
+    }
+    return outputItem;
 }
 
 function checkElementAtPosition(group, x, y) {
@@ -145,7 +156,7 @@ document.addEventListener('keydown', function(event) {
         } else {}
     }
 });
-
+let currentBuildingTile;
 function update() {
     
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
@@ -153,10 +164,14 @@ function update() {
 
     if (inBuildMode) {
         text.setText('in build mode');
+
         if(summonFrame1) {
-            createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1_build");
+            currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1_build");
+            
             summonFrame1 = false;
-        } else{}
+        } else{
+            currentBuildingTile.setPosition(mouseX, mouseY);
+        }
     } else {
         text.setText('not in build mode');
         summonFrame1 = true;
