@@ -54,8 +54,11 @@ function create() {
         
         // Existing code
         this.cameras.main.setBackgroundColor('#fffbe0');
-        var ground = this.physics.add.staticGroup();
         var turtleObjects = this.physics.add.staticGroup();
+        var ground = this.physics.add.staticGroup();
+        ground.setDepth(0);
+        turtleObjects.setDepth(1);
+        
         this.turtleObjects = turtleObjects;
         // Initial ground tile creation
         createTextureTile(this, ground, 400, 650, "norm");
@@ -111,7 +114,8 @@ function createTextureTile(scene, groundGroup, x, y, texture) {
     if(texture !== "norm") {
         textureName = texture;
     } else {}
-    groundGroup.create(x, y, textureName).setScale(1, 1).refreshBody();
+    let outputItem = groundGroup.create(x, y, textureName).setScale(1, 1).refreshBody();
+    return outputItem;
 }
 
 function checkElementAtPosition(group, x, y) {
