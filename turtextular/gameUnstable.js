@@ -73,27 +73,7 @@ var enterKey;
 var turtleObjects;
 var text;
 
-var config = {
-    type: Phaser.AUTO,
-    width: 1366,
-    height: 647,
-    scale: {
-        // Fit to window
-        mode: Phaser.Scale.FIT,
-        // Center vertically and horizontally
-        autoCenter: Phaser.Scale.CENTER_BOTH
-    },
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 600 },
-            debug: false // Enable debug to see collision boxes
-        }
-    },
-    scene: [TitleScene, GameScene] 
-};
 
-var game = new Phaser.Game(config);
 class TitleScene extends Phaser.Scene {
     constructor() {
         super({ key: 'TitleScene' });
@@ -104,9 +84,9 @@ class TitleScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.text(683, 300, 'Game Title', { fontSize: '64px', fill: '#000' }).setOrigin(0.5);
-        var startButton = this.add.text(683, 400, 'Start Game', { fontSize: '32px', fill: '#000' }).setOrigin(0.5);
-        startButton.setInteractive();
+        this.add.text(683, 300, 'Welcome To Turtextular', { fontSize: '64px', fill: '#ffffff' }).setOrigin(0.5);
+        var startButton = this.add.text(683, 400, 'Start Game', { fontSize: '32px', fill: '#ffffff' }).setOrigin(0.5);
+        startButton.setInteractive({ useHandCursor: true });
         startButton.on('pointerdown', () => {
             this.scene.start('GameScene');
         });
@@ -257,4 +237,24 @@ update() {
 }
 
 
-}
+}var config = {
+    type: Phaser.AUTO,
+    width: 1366,
+    height: 647,
+    scale: {
+        // Fit to window
+        mode: Phaser.Scale.FIT,
+        // Center vertically and horizontally
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 600 },
+            debug: false // Enable debug to see collision boxes
+        }
+    },
+    scene: [TitleScene, GameScene] 
+};
+
+var game = new Phaser.Game(config);
