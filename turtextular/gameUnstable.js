@@ -1,17 +1,12 @@
 window.addEventListener("error", function (event) {
     window.alert(`<p style="color: red;">Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename}</p>`);
 });
+var inBuildMode = false;
+
 var enterKey;
 var turtleObjects;
 var text;
-function detectLeftButton(evt) {
-    evt = evt || window.event;
-    if ("buttons" in evt) {
-        return evt.buttons == 1;
-    }
-    var button = evt.which || evt.button;
-    return button == 1;
-}
+
 var config = {
     type: Phaser.AUTO,
     width: 1366,
@@ -59,6 +54,11 @@ function create() {
     try {
         
         // Existing code
+        this.input.on('pointerdown', function (pointer) {
+            if (pointer.leftButtonDown()) {
+                inBuildMode = false;
+            }
+        });
         this.cameras.main.setBackgroundColor('#fffbe0');
         var turtleObjects = this.physics.add.staticGroup();
         turtleObjects.setDepth(0); // Set turtleObjects group to appear behind
@@ -151,7 +151,6 @@ function checkElementAtPosition(group, x, y) {
 var mormon = 1;
 var useEdge = 0;
 var doingdir = "right";
-var inBuildMode = false;
 document.addEventListener('keydown', function(event) {
     if (event.code === 'KeyE') {
         if(inBuildMode) {
@@ -164,10 +163,7 @@ document.addEventListener('keydown', function(event) {
 });
 let currentBuildingTile;
 function update() {
-    const isThereALeftClick = detectLeftButton();
-    if(inBuildMode && isThereALeftClick) {
-        inBuildMode = false;
-    }
+    
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
     var leftEdge = this.cameras.main.scrollX;
 
