@@ -1,6 +1,13 @@
 window.addEventListener("error", function (event) {
     window.alert(`<p style="color: red;">Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename}</p>`);
 });
+function getBottomLeftCorner(element) {
+    const rect = element.getBoundingClientRect();
+    return {
+        x: rect.left,
+        y: rect.bottom
+    };
+}
 var inBuildMode = false;
 function randomNum(startVal, endVal) {
     endVal = endVal - startVal;
@@ -182,7 +189,8 @@ update() {
             summonFrame1 = false;
         } else{
             currentBuildingTile.setPosition(mouseX, mouseY);
-            isTouching = checkElementAtPosition(this.ground, mouseX, 650);
+            var leftcornerPos = getBottomLeftCorner(currentBuildingTile);
+            var isTouching = checkElementAtPosition(this.ground, leftcornerPos.x, leftcornerPos.y);
             if(isTouching) {
                 currentBuildingTile.setTexture('drill_T1_build');
             }
