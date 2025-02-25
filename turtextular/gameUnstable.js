@@ -177,11 +177,18 @@ update() {
         text.setText('in build mode');
 
         if(summonFrame1) {
-            currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1_build");
+            currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1_dont_build");
             
             summonFrame1 = false;
         } else{
             currentBuildingTile.setPosition(mouseX, mouseY);
+            isTouching = checkElementAtPosition(this.ground, mouseX, 650);
+            if(isTouching) {
+                currentBuildingTile.setTexture('drill_T1_build');
+            }
+            else {
+                currentBuildingTile.setTexture('drill_T1_dont_build');
+            }
         }
     } else {
         text.setText('not in build mode');
