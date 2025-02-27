@@ -184,7 +184,7 @@ update() {
 
         if(summonFrame1) {
             currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1");
-            currentPlacingTile = createTextureTile(this, this.turtleObjects, mousex, mouseY, "nonplaceable");
+            currentPlacingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "nonplaceable");
             summonFrame1 = false;
             currentPlacingTile.setDisplaySize(currentBuildingTile.displayWidth, currentBuildingTile.displayHeight);
         } else{
