@@ -1,6 +1,12 @@
 window.addEventListener("error", function (event) {
-    window.alert(`<p style="color: red;">Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename}</p>`);
+    window.alert(`Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename}`);
 });
+function getBottomLeftCorner(sprite) {
+    return {
+        x: sprite.x - sprite.displayWidth / 2,
+        y: sprite.y + sprite.displayHeight / 2
+    };
+}
 var inBuildMode = false;
 function randomNum(startVal, endVal) {
     endVal = endVal - startVal;
@@ -69,9 +75,11 @@ document.addEventListener('keydown', function(event) {
     }
 });
 let currentBuildingTile;
+let currentPlacingTile;
 var enterKey;
 var turtleObjects;
 var text;
+let isPlaceable = true;
 
 
 class TitleScene extends Phaser.Scene {
@@ -108,8 +116,8 @@ class GameScene extends Phaser.Scene {
     this.load.image('ore1', 'https://turtlesyeah.github.io/turtextular/assets/bauxenite.png'); // Replace with actual path
     this.load.image('ore2', 'https://turtlesyeah.github.io/turtextular/assets/idovite.png');
     this.load.image('drill_T1', 'https://turtlesyeah.github.io/turtextular/assets/drillt1.png');
-    this.load.image('drill_T1_build', 'https://turtlesyeah.github.io/turtextular/assets/drillt1_buildable.png'); // Replace with actual path
-    this.load.image('drill_T1_dont_build', 'https://turtlesyeah.github.io/turtextular/assets/drillt1_unbuildable.png');
+    this.load.image('build', 'https://turtlesyeah.github.io/turtextular/assets/placeable.png'); // Replace with actual path
+    this.load.image('dont_build', 'https://turtlesyeah.github.io/turtextular/assets/nonplaceable.png');
 }
 
  create() {
@@ -177,15 +185,36 @@ update() {
         text.setText('in build mode');
 
         if(summonFrame1) {
-            currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1_build");
-            
+            currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1");
+            currentPlacingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "nonplaceable");
             summonFrame1 = false;
+            currentPlacingTile.setDisplaySize(currentBuildingTile.displayWidth, currentBuildingTile.displayHeight);
         } else{
             currentBuildingTile.setPosition(mouseX, mouseY);
+            currentPlacingTile.setPosition(mouseX, mouseY);
+            var leftcornerPos = getBottomLeftCorner(currentBuildingTile);
+            var isTouching = checkElementAtPosition(this.ground, leftcornerPos.x, leftcornerPos.y);
+            if(isTouching) {
+                currentPlacingTile.setTexture('build');
+                isPlaceable = true;
+            }
+            else {
+                currentPlacingTile.setTexture('dont_build');
+                isPlaceable = false;
+            }
+            currentPlacingTile.setDisplaySize(currentBuildingTile.displayWidth, currentBuildingTile.displayHeight);
         }
     } else {
+
         text.setText('not in build mode');
+        if(currentPlacingTile) {
+            currentPlacingTile.destroy();
+        }
+        if(!isPlaceable && currentBuildingTile) {
+            currentBuildingTile.destroy();
+        }
         summonFrame1 = true;
+        isPlaceable = true;
     }
 
     // Handle player movement
