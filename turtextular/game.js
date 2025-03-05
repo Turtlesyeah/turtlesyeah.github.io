@@ -1,6 +1,35 @@
+let currentPlacingTile;
+window.onerror = function(error) {
+    // do something clever here
+    window.alert(error);
+  };
+
 window.addEventListener("error", function (event) {
     window.alert(`Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename}`);
 });
+var items = {
+    drills: {
+        
+    }
+}
+var cheeseCount = 0;
+function createItem(id, currentBuildingTile) {
+    var newArray = {currentBuildingTile};
+     
+    var cornerXY = getBottomLeftCorner(currentBuildingTile);
+    var isThereAThingThere = checkElementAtPosition(this.turtleObjects, cornerXY.x, cornerXY.y);
+    if(isThereAThingThere.veryBigCheese) {
+        if(isThereAThingThere.veryBigCheese === "ore1") {
+            newArray.rock = "bauxentite";
+        }
+        else if(isThereAThingThere.veryBigCheese === "ore2") {
+            newArray.rock = "idovite";
+        }
+    }
+    items.drills[id] = newArray;
+    text.setText("created a " + newArray.rock + " drill");
+    
+}
 function getBottomLeftCorner(sprite) {
     return {
         x: sprite.x - sprite.displayWidth / 2,
@@ -33,10 +62,13 @@ function createTextureTile(scene, groundGroup, x, y, texture) {
     }
     if(texture !== "norm") {
         textureName = texture;
-    } else {}
+    } else {
+
+    }
     let outputItem = groundGroup.create(x, y, textureName).setScale(1, 1).refreshBody();
     if(texture === "norm") {
         outputItem.setDepth(1);
+        outputItem.veryBigCheese = textureName;
     }
     else {
         outputItem.setDepth(0);
@@ -75,7 +107,7 @@ document.addEventListener('keydown', function(event) {
     }
 });
 let currentBuildingTile;
-let currentPlacingTile;
+
 var enterKey;
 var turtleObjects;
 var text;
@@ -176,19 +208,25 @@ class GameScene extends Phaser.Scene {
     }
 }
 
+
 update() {
     
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
     var leftEdge = this.cameras.main.scrollX;
 
     if (inBuildMode) {
-        text.setText('in build mode');
+        
 
         if(summonFrame1) {
+            cheeseCount++;
             currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1");
-            currentPlacingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "nonplaceable");
+            currentPlacingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "build");
             summonFrame1 = false;
+            createItem("tileDrill" + cheeseCount);
+            
             currentPlacingTile.setDisplaySize(currentBuildingTile.displayWidth, currentBuildingTile.displayHeight);
+            
+            
         } else{
             currentBuildingTile.setPosition(mouseX, mouseY);
             currentPlacingTile.setPosition(mouseX, mouseY);
@@ -206,7 +244,7 @@ update() {
         }
     } else {
 
-        text.setText('not in build mode');
+        
         if(currentPlacingTile) {
             currentPlacingTile.destroy();
         }
