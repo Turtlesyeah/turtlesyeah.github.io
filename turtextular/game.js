@@ -5,7 +5,7 @@ window.onerror = function(error) {
   };
 
 window.addEventListener("error", function (event) {
-    window.alert(`Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename}`);
+    window.alert(`Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename} and love`);
 });
 var items = {
     drills: {
