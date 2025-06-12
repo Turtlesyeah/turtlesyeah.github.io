@@ -66,12 +66,7 @@ var useEdge = 0;
 var doingdir = "right";
 document.addEventListener('keydown', function(event) {
     if (event.code === 'KeyE') {
-        if(inBuildMode) {
-            inBuildMode = false;
-        } 
-        else if(!inBuildMode) {
-            inBuildMode = true;
-        } else {}
+        inBuildMode = !inBuildMode; // Toggle build mode on 'E' key press
     }
 });
 let currentBuildingTile;
