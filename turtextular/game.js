@@ -1,4 +1,12 @@
+var start = Date.now();
+setInterval(function() {
+    var delta = Date.now() - start; // milliseconds elapsed since start
+}, 1000); // update about every second
+
+
+
 let currentPlacingTile;
+var turtleObjects;
 window.onerror = function(error) {
     // do something clever here
     window.alert(error);
@@ -13,11 +21,11 @@ var items = {
     }
 }
 var cheeseCount = 0;
-function createItem(id, currentBuildingTile) {
+function createItem(id, currentBuildingTile, grouper) {
     var newArray = {currentBuildingTile};
      
     var cornerXY = getBottomLeftCorner(currentBuildingTile);
-    var isThereAThingThere = checkElementAtPosition(this.turtleObjects, cornerXY.x, cornerXY.y);
+    var isThereAThingThere = checkElementAtPosition(grouper, cornerXY.x, cornerXY.y);
     if(isThereAThingThere.veryBigCheese) {
         if(isThereAThingThere.veryBigCheese === "ore1") {
             newArray.rock = "bauxentite";
@@ -109,7 +117,7 @@ document.addEventListener('keydown', function(event) {
 let currentBuildingTile;
 
 var enterKey;
-var turtleObjects;
+
 var text;
 let isPlaceable = true;
 
@@ -193,7 +201,11 @@ class GameScene extends Phaser.Scene {
             down: Phaser.Input.Keyboard.KeyCodes.DOWN,
             left: Phaser.Input.Keyboard.KeyCodes.LEFT,
             right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
-            enter: Phaser.Input.Keyboard.KeyCodes.ENTER
+            enter: Phaser.Input.Keyboard.KeyCodes.ENTER,
+            w: Phaser.Input.Keyboard.KeyCodes.W,
+            a: Phaser.Input.Keyboard.KeyCodes.A,
+            s: Phaser.Input.Keyboard.KeyCodes.S,
+            d: Phaser.Input.Keyboard.KeyCodes.D
         });
         this.cameras.main.startFollow(player, true, 1, 1, 0, 150);
 
@@ -222,8 +234,8 @@ update() {
             currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1");
             currentPlacingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "build");
             summonFrame1 = false;
-            createItem("tileDrill" + cheeseCount);
-            
+            createItem("tileDrill" + cheeseCount, currentBuildingTile, this.turtleObjects);
+
             currentPlacingTile.setDisplaySize(currentBuildingTile.displayWidth, currentBuildingTile.displayHeight);
             
             
@@ -256,12 +268,12 @@ update() {
     }
 
     // Handle player movement
-    if (cursors.left.isDown) {
+    if (cursors.left.isDown || cursors.a.isDown) {
         player.setVelocityX(-1600);
         player.setTexture('playerleft');
         useEdge = leftEdge;
         doingdir = "left";
-    } else if (cursors.right.isDown) {
+    } else if (cursors.right.isDown || cursors.d.isDown) {
         player.setVelocityX(1600);
         player.setTexture('playerright');
         useEdge = cameraRightEdge;
@@ -274,7 +286,7 @@ update() {
     }
 
     // Jump if the up arrow is pressed and the player is touching the ground
-    if (cursors.up.isDown && player.body.touching.down) {
+    if ((cursors.up.isDown || cursors.w.isDown) && player.body.touching.down) {
         player.setVelocityY(-240);
     }
     var element;
@@ -282,8 +294,9 @@ update() {
         // Check if a new ground tile should be created
          element = checkElementAtPosition(this.ground, (useEdge) + 100, 650);
     } else {// Check if a new ground tile should be created
-         element = checkElementAtPosition(this.ground, (useEdge) - 100, 650);}
-    
+         element = checkElementAtPosition(this.ground, (useEdge) - 100, 650);
+    }
+
     var newTileX;// Assuming ground tiles are spaced 2048 units apart
     if (!element) {
         var newTileX;
