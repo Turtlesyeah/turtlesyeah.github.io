@@ -44,6 +44,12 @@ function getBottomLeftCorner(sprite) {
         y: sprite.y + sprite.displayHeight / 2
     };
 }
+function getBottomMiddleCorner(sprite) {
+    return {
+        x: sprite.x,
+        y: sprite.y + sprite.displayHeight / 2
+    };
+}
 var inBuildMode = false;
 function randomNum(startVal, endVal) {
     endVal = endVal - startVal;
@@ -194,6 +200,7 @@ class GameScene extends Phaser.Scene {
 
         // Add collision between the player and the ground
         this.physics.add.collider(player, ground);
+       
 
         // Set up cursor keys for input
         cursors = this.input.keyboard.addKeys({
@@ -202,7 +209,7 @@ class GameScene extends Phaser.Scene {
             left: Phaser.Input.Keyboard.KeyCodes.LEFT,
             right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
             enter: Phaser.Input.Keyboard.KeyCodes.ENTER,
-            w: Phaser.Input.Keyboard.KeyCodes.W,
+            w: Phaser.Input.Keyboard.KeyCodes.SPACE,
             a: Phaser.Input.Keyboard.KeyCodes.A,
             s: Phaser.Input.Keyboard.KeyCodes.S,
             d: Phaser.Input.Keyboard.KeyCodes.D
@@ -242,9 +249,12 @@ update() {
         } else{
             currentBuildingTile.setPosition(mouseX, mouseY);
             currentPlacingTile.setPosition(mouseX, mouseY);
+            currentBuildingTile.body.updateFromGameObject();
+            currentPlacingTile.body.updateFromGameObject();
             var leftcornerPos = getBottomLeftCorner(currentBuildingTile);
             var isTouching = checkElementAtPosition(this.ground, leftcornerPos.x, leftcornerPos.y);
-            if(isTouching) {
+            var isclipping = checkElementAtPosition(this.turtleObjects, leftcornerPos.x, leftcornerPos.y);
+            if(isTouching && !isclipping) {
                 currentPlacingTile.setTexture('build');
                 isPlaceable = true;
             }
@@ -263,6 +273,7 @@ update() {
         if(!isPlaceable && currentBuildingTile) {
             currentBuildingTile.destroy();
         }
+        
         summonFrame1 = true;
         isPlaceable = true;
     }
@@ -331,7 +342,7 @@ update() {
         default: 'arcade',
         arcade: {
             gravity: { y: 600 },
-            debug: false // Enable debug to see collision boxes
+            debug: true // Enable debug to see collision boxes
         }
     },
     scene: [TitleScene, GameScene] 
