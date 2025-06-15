@@ -90,21 +90,21 @@ function createTextureTile(scene, groundGroup, x, y, texture) {
     return outputItem;
 }
 
-function checkElementAtPosition(group, x, y) {
+function checkElementAtPosition(group, x, y, excludeSprite) {
     const children = group.getChildren();
     for (let i = 0; i < children.length; i++) {
         const child = children[i];
+        if (excludeSprite && child === excludeSprite) continue; // Ignore if it's the preview
+
         const childLeft = child.x - child.displayWidth / 2;
         const childRight = child.x + child.displayWidth / 2;
         const childTop = child.y - child.displayHeight / 2;
         const childBottom = child.y + child.displayHeight / 2;
 
         if (x >= childLeft && x <= childRight && y >= childTop && y <= childBottom) {
-            
             return true; // Element found at the position
         }
     }
-    
     return false; // No element found at the position
 }
 var mormon = 1;
@@ -177,12 +177,15 @@ class GameScene extends Phaser.Scene {
         });
         this.cameras.main.setBackgroundColor('#fffbe0');
         var turtleObjects = this.physics.add.staticGroup();
+        var randos = this.physics.add.staticGroup();
         turtleObjects.setDepth(0); // Set turtleObjects group to appear behind
         
         // Create ground group and set depth
         var ground = this.physics.add.staticGroup();
+        
         ground.setDepth(1); // Set ground group to appear in front
         this.turtleObjects = turtleObjects;
+        this.randos = randos;
         // Initial ground tile creation
         createTextureTile(this, ground, 400, 650, "norm");
         createTextureTile(this, ground, 2448, 650, "norm");
@@ -239,7 +242,7 @@ update() {
         if(summonFrame1) {
             cheeseCount++;
             currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1");
-            currentPlacingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "build");
+            currentPlacingTile = createTextureTile(this, this.randos, mouseX, mouseY, "build");
             summonFrame1 = false;
             createItem("tileDrill" + cheeseCount, currentBuildingTile, this.turtleObjects);
 
@@ -253,7 +256,7 @@ update() {
             currentPlacingTile.body.updateFromGameObject();
             var leftcornerPos = getBottomLeftCorner(currentBuildingTile);
             var isTouching = checkElementAtPosition(this.ground, leftcornerPos.x, leftcornerPos.y);
-            var isclipping = checkElementAtPosition(this.turtleObjects, leftcornerPos.x, leftcornerPos.y);
+            var isclipping = checkElementAtPosition(this.turtleObjects, leftcornerPos.x, leftcornerPos.y, currentBuildingTile);
             if(isTouching && !isclipping) {
                 currentPlacingTile.setTexture('build');
                 isPlaceable = true;
