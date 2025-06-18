@@ -1,9 +1,66 @@
+var start = Date.now();
+setInterval(function() {
+    var delta = Date.now() - start; // milliseconds elapsed since start
+}, 1000); // update about every second
+
+
+
+let currentPlacingTile;
+var turtleObjects;
+window.onerror = function(error) {
+    // do something clever here
+    window.alert(error);
+  };
+
 window.addEventListener("error", function (event) {
-    window.alert(`Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename}`);
+    window.alert(`Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename} and love`);
 });
+var items = {
+    drills: {
+        
+    }
+}
+var cheeseCount = 0;
+function checkGroupOverlap(obj, group, excludeSprite) {
+    
+    const children = group.getChildren();
+    const boundsA = obj.getBounds();
+    for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+        const boundsB = child.getBounds();
+
+        if (Phaser.Geom.Intersects.RectangleToRectangle(boundsA, boundsB) && child !== excludeSprite) {
+            return true; // Overlap found
+        }
+    }
+    return false; // No overlap found
+}
+function createItem(id, currentBuildingTile, grouper) {
+    var newArray = {currentBuildingTile};
+     
+    var cornerXY = getBottomLeftCorner(currentBuildingTile);
+    var isThereAThingThere = checkElementAtPosition(grouper, cornerXY.x, cornerXY.y);
+    if(isThereAThingThere.veryBigCheese) {
+        if(isThereAThingThere.veryBigCheese === "ore1") {
+            newArray.rock = "bauxentite";
+        }
+        else if(isThereAThingThere.veryBigCheese === "ore2") {
+            newArray.rock = "idovite";
+        }
+    }
+    items.drills[id] = newArray;
+    text.setText("created a " + newArray.rock + " drill");
+    
+}
 function getBottomLeftCorner(sprite) {
     return {
         x: sprite.x - sprite.displayWidth / 2,
+        y: sprite.y + sprite.displayHeight / 2
+    };
+}
+function getBottomMiddleCorner(sprite) {
+    return {
+        x: sprite.x,
         y: sprite.y + sprite.displayHeight / 2
     };
 }
@@ -33,10 +90,13 @@ function createTextureTile(scene, groundGroup, x, y, texture) {
     }
     if(texture !== "norm") {
         textureName = texture;
-    } else {}
+    } else {
+
+    }
     let outputItem = groundGroup.create(x, y, textureName).setScale(1, 1).refreshBody();
     if(texture === "norm") {
         outputItem.setDepth(1);
+        outputItem.veryBigCheese = textureName;
     }
     else {
         outputItem.setDepth(0);
@@ -44,21 +104,21 @@ function createTextureTile(scene, groundGroup, x, y, texture) {
     return outputItem;
 }
 
-function checkElementAtPosition(group, x, y) {
+function checkElementAtPosition(group, x, y, excludeSprite) {
     const children = group.getChildren();
     for (let i = 0; i < children.length; i++) {
         const child = children[i];
+        if (excludeSprite && child === excludeSprite) continue; // Ignore if it's the preview
+
         const childLeft = child.x - child.displayWidth / 2;
         const childRight = child.x + child.displayWidth / 2;
         const childTop = child.y - child.displayHeight / 2;
         const childBottom = child.y + child.displayHeight / 2;
 
         if (x >= childLeft && x <= childRight && y >= childTop && y <= childBottom) {
-            
             return true; // Element found at the position
         }
     }
-    
     return false; // No element found at the position
 }
 var mormon = 1;
@@ -66,13 +126,20 @@ var useEdge = 0;
 var doingdir = "right";
 document.addEventListener('keydown', function(event) {
     if (event.code === 'KeyE') {
-        inBuildMode = !inBuildMode; // Toggle build mode on 'E' key press
+        if(inBuildMode) {
+            inBuildMode = false;
+        } 
+        else if(!inBuildMode) {
+            inBuildMode = true;
+        } else {}
     }
 });
 let currentBuildingTile;
+
 var enterKey;
-var turtleObjects;
+
 var text;
+let isPlaceable = true;
 
 
 class TitleScene extends Phaser.Scene {
@@ -124,12 +191,15 @@ class GameScene extends Phaser.Scene {
         });
         this.cameras.main.setBackgroundColor('#fffbe0');
         var turtleObjects = this.physics.add.staticGroup();
+        var randos = this.physics.add.staticGroup();
         turtleObjects.setDepth(0); // Set turtleObjects group to appear behind
         
         // Create ground group and set depth
         var ground = this.physics.add.staticGroup();
+        
         ground.setDepth(1); // Set ground group to appear in front
         this.turtleObjects = turtleObjects;
+        this.randos = randos;
         // Initial ground tile creation
         createTextureTile(this, ground, 400, 650, "norm");
         createTextureTile(this, ground, 2448, 650, "norm");
@@ -147,6 +217,7 @@ class GameScene extends Phaser.Scene {
 
         // Add collision between the player and the ground
         this.physics.add.collider(player, ground);
+       
 
         // Set up cursor keys for input
         cursors = this.input.keyboard.addKeys({
@@ -154,7 +225,11 @@ class GameScene extends Phaser.Scene {
             down: Phaser.Input.Keyboard.KeyCodes.DOWN,
             left: Phaser.Input.Keyboard.KeyCodes.LEFT,
             right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
-            enter: Phaser.Input.Keyboard.KeyCodes.ENTER
+            enter: Phaser.Input.Keyboard.KeyCodes.ENTER,
+            w: Phaser.Input.Keyboard.KeyCodes.SPACE,
+            a: Phaser.Input.Keyboard.KeyCodes.A,
+            s: Phaser.Input.Keyboard.KeyCodes.S,
+            d: Phaser.Input.Keyboard.KeyCodes.D
         });
         this.cameras.main.startFollow(player, true, 1, 1, 0, 150);
 
@@ -169,44 +244,64 @@ class GameScene extends Phaser.Scene {
     }
 }
 
+
 update() {
     
     const cameraRightEdge = this.cameras.main.scrollX + this.cameras.main.width;
     var leftEdge = this.cameras.main.scrollX;
 
     if (inBuildMode) {
-        text.setText('in build mode');
+        
 
         if(summonFrame1) {
+            cheeseCount++;
             currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1");
-            currentPlacingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "nonplaceable");
+            currentPlacingTile = createTextureTile(this, this.randos, mouseX, mouseY, "build");
             summonFrame1 = false;
+            createItem("tileDrill" + cheeseCount, currentBuildingTile, this.turtleObjects);
+
             currentPlacingTile.setDisplaySize(currentBuildingTile.displayWidth, currentBuildingTile.displayHeight);
+            
+            
         } else{
             currentBuildingTile.setPosition(mouseX, mouseY);
             currentPlacingTile.setPosition(mouseX, mouseY);
+            currentBuildingTile.body.updateFromGameObject();
+            currentPlacingTile.body.updateFromGameObject();
             var leftcornerPos = getBottomLeftCorner(currentBuildingTile);
             var isTouching = checkElementAtPosition(this.ground, leftcornerPos.x, leftcornerPos.y);
-            if(isTouching) {
+            var isclipping = checkGroupOverlap(currentBuildingTile, this.turtleObjects, currentBuildingTile);
+            if(isTouching && !isclipping) {
                 currentPlacingTile.setTexture('build');
+                isPlaceable = true;
             }
             else {
                 currentPlacingTile.setTexture('dont_build');
+                isPlaceable = false;
             }
+            currentPlacingTile.setDisplaySize(currentBuildingTile.displayWidth, currentBuildingTile.displayHeight);
         }
     } else {
 
-        text.setText('not in build mode');
+        
+        if(currentPlacingTile) {
+            currentPlacingTile.destroy();
+        }
+        if(!isPlaceable && currentBuildingTile) {
+            currentBuildingTile.destroy();
+        }
+        
         summonFrame1 = true;
+        isPlaceable = true;
     }
 
     // Handle player movement
-    if (cursors.left.isDown) {
+    if (cursors.left.isDown || cursors.a.isDown) {
         player.setVelocityX(-1600);
         player.setTexture('playerleft');
         useEdge = leftEdge;
         doingdir = "left";
-    } else if (cursors.right.isDown) {
+    } else if (cursors.right.isDown || cursors.d.isDown) {
         player.setVelocityX(1600);
         player.setTexture('playerright');
         useEdge = cameraRightEdge;
@@ -219,7 +314,7 @@ update() {
     }
 
     // Jump if the up arrow is pressed and the player is touching the ground
-    if (cursors.up.isDown && player.body.touching.down) {
+    if ((cursors.up.isDown || cursors.w.isDown) && player.body.touching.down) {
         player.setVelocityY(-240);
     }
     var element;
@@ -227,8 +322,9 @@ update() {
         // Check if a new ground tile should be created
          element = checkElementAtPosition(this.ground, (useEdge) + 100, 650);
     } else {// Check if a new ground tile should be created
-         element = checkElementAtPosition(this.ground, (useEdge) - 100, 650);}
-    
+         element = checkElementAtPosition(this.ground, (useEdge) - 100, 650);
+    }
+
     var newTileX;// Assuming ground tiles are spaced 2048 units apart
     if (!element) {
         var newTileX;
@@ -263,7 +359,7 @@ update() {
         default: 'arcade',
         arcade: {
             gravity: { y: 600 },
-            debug: false // Enable debug to see collision boxes
+            debug: true // Enable debug to see collision boxes
         }
     },
     scene: [TitleScene, GameScene] 
