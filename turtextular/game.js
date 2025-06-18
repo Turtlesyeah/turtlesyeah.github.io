@@ -22,22 +22,19 @@ var items = {
 }
 var cheeseCount = 0;
 function checkGroupOverlap(obj, group, excludeSprite) {
-    if (excludeSprite) {
-        group.remove(excludeSprite, true, true);
-    }
+    
     const children = group.getChildren();
+    const boundsA = obj.getBounds();
     for (let i = 0; i < children.length; i++) {
         const child = children[i];
-        if (obj.x >= child.x - child.displayWidth / 2 &&
-            obj.x <= child.x + child.displayWidth / 2 &&
-            obj.y >= child.y - child.displayHeight / 2 &&
-            obj.y <= child.y + child.displayHeight / 2) {
+        const boundsB = child.getBounds();
+
+        if (Phaser.Geom.Intersects.RectangleToRectangle(boundsA, boundsB) && child !== excludeSprite) {
             return true; // Overlap found
         }
     }
     return false; // No overlap found
 }
-
 function createItem(id, currentBuildingTile, grouper) {
     var newArray = {currentBuildingTile};
      
