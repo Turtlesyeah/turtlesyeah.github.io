@@ -359,7 +359,7 @@ update() {
         default: 'arcade',
         arcade: {
             gravity: { y: 600 },
-            debug: true // Enable debug to see collision boxes
+            debug: false // Enable debug to see collision boxes
         }
     },
     scene: [TitleScene, GameScene] 
