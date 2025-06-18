@@ -21,6 +21,23 @@ var items = {
     }
 }
 var cheeseCount = 0;
+function checkGroupOverlap(obj, group, excludeSprite) {
+    if (excludeSprite) {
+        group.remove(excludeSprite, true, true);
+    }
+    const children = group.getChildren();
+    for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+        if (obj.x >= child.x - child.displayWidth / 2 &&
+            obj.x <= child.x + child.displayWidth / 2 &&
+            obj.y >= child.y - child.displayHeight / 2 &&
+            obj.y <= child.y + child.displayHeight / 2) {
+            return true; // Overlap found
+        }
+    }
+    return false; // No overlap found
+}
+
 function createItem(id, currentBuildingTile, grouper) {
     var newArray = {currentBuildingTile};
      
@@ -256,7 +273,7 @@ update() {
             currentPlacingTile.body.updateFromGameObject();
             var leftcornerPos = getBottomLeftCorner(currentBuildingTile);
             var isTouching = checkElementAtPosition(this.ground, leftcornerPos.x, leftcornerPos.y);
-            var isclipping = checkElementAtPosition(this.turtleObjects, leftcornerPos.x, leftcornerPos.y, currentBuildingTile);
+            var isclipping = checkGroupOverlap(currentBuildingTile, this.turtleObjects, currentBuildingTile);
             if(isTouching && !isclipping) {
                 currentPlacingTile.setTexture('build');
                 isPlaceable = true;
