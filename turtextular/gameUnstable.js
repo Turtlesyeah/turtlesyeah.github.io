@@ -271,6 +271,7 @@ update() {
         
 
         if(summonFrame1) {
+            isPlaceable = false;
             cheeseCount++;
             currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1");
             currentPlacingTile = createTextureTile(this, this.randos, mouseX, mouseY, "build");
@@ -309,7 +310,7 @@ update() {
         }
         
         summonFrame1 = true;
-        isPlaceable = false;
+        isPlaceable = true;
     }
 
     // Handle player movement
