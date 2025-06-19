@@ -1,12 +1,34 @@
 var start = Date.now();
+let currentPlacingTile;
+var turtleObjects;
+var placedObjects = {
+    drills: [
+        //{timer: 0, input: /* object */, output: /* object */}
+    ]
+};
+var cheeseCount = 0;
+var inBuildMode = false;
+var mormon = 1;
+var useEdge = 0;
+var doingdir = "right";
+var player;
+var cursors;
+var oldTileX;
+var enterKeyHeld = false;
+var summonFrame1 = true;
+var mouseX = mouseY = 0;
+let currentBuildingTile;
+var enterKey;
+var text;
+let isPlaceable = true;
+
 setInterval(function() {
     var delta = Date.now() - start; // milliseconds elapsed since start
 }, 1000); // update about every second
 
 
 
-let currentPlacingTile;
-var turtleObjects;
+
 window.onerror = function(error) {
     // do something clever here
     window.alert(error);
@@ -15,12 +37,7 @@ window.onerror = function(error) {
 window.addEventListener("error", function (event) {
     window.alert(`Error: ${event.message} at ${event.lineno}:${event.colno} of ${event.filename} and love`);
 });
-var items = {
-    drills: {
-        
-    }
-}
-var cheeseCount = 0;
+
 function checkGroupOverlap(obj, group, excludeSprite) {
     
     const children = group.getChildren();
@@ -48,7 +65,7 @@ function createItem(id, currentBuildingTile, grouper) {
             newArray.rock = "idovite";
         }
     }
-    items.drills[id] = newArray;
+    
     text.setText("created a " + newArray.rock + " drill");
     
 }
@@ -64,18 +81,13 @@ function getBottomMiddleCorner(sprite) {
         y: sprite.y + sprite.displayHeight / 2
     };
 }
-var inBuildMode = false;
+
 function randomNum(startVal, endVal) {
     endVal = endVal - startVal;
     var returnVal = Math.floor(Math.random() * (endVal + 1) + startVal);
     return returnVal;
 }
-var player;
-var cursors;
-var oldTileX;
-var enterKeyHeld = false;
-var summonFrame1 = true;
-var mouseX = mouseY = 0;
+
 function createTextureTile(scene, groundGroup, x, y, texture) {
     let rand = randomNum(0, 20);
     let textureName;
@@ -121,9 +133,7 @@ function checkElementAtPosition(group, x, y, excludeSprite) {
     }
     return false; // No element found at the position
 }
-var mormon = 1;
-var useEdge = 0;
-var doingdir = "right";
+
 document.addEventListener('keydown', function(event) {
     if (event.code === 'KeyE') {
         if(inBuildMode) {
@@ -134,12 +144,6 @@ document.addEventListener('keydown', function(event) {
         } else {}
     }
 });
-let currentBuildingTile;
-
-var enterKey;
-
-var text;
-let isPlaceable = true;
 
 
 class TitleScene extends Phaser.Scene {
@@ -157,6 +161,19 @@ class TitleScene extends Phaser.Scene {
         startButton.setInteractive({ useHandCursor: true });
         startButton.on('pointerdown', () => {
             this.scene.start('GameScene');
+        });
+        startButton.on('pointerover', () => {
+        // Change the text’s background or add a shadow for a highlight effect
+        startButton.setStyle({ backgroundColor: '#fff', color: '#000' }); // white highlight, black text
+        // Or, for a glow effect:
+        // myText.setShadow(2, 2, '#fff', 10, true, true);
+        });
+
+        startButton.on('pointerout', () => {
+        // Reset to original style
+        startButton.setStyle({ backgroundColor: '#000', color: '#fff' });
+        // Or remove shadow:
+        // myText.setShadow(0, 0, '#000', 0, false, false);
         });
     }
 }
@@ -254,6 +271,7 @@ update() {
         
 
         if(summonFrame1) {
+            isPlaceable = false;
             cheeseCount++;
             currentBuildingTile = createTextureTile(this, this.turtleObjects, mouseX, mouseY, "drill_T1");
             currentPlacingTile = createTextureTile(this, this.randos, mouseX, mouseY, "build");
@@ -297,15 +315,25 @@ update() {
 
     // Handle player movement
     if (cursors.left.isDown || cursors.a.isDown) {
+                 const pointer = this.input.activePointer;
+         mouseX = this.cameras.main.getWorldPoint(pointer.x, pointer.y).x;
+         mouseY = this.cameras.main.getWorldPoint(pointer.x, pointer.y).y;
         player.setVelocityX(-1600);
         player.setTexture('playerleft');
         useEdge = leftEdge;
         doingdir = "left";
+  
+    // Now mouseX and mouseY are correct even if the camera moves.
     } else if (cursors.right.isDown || cursors.d.isDown) {
+         const pointer = this.input.activePointer;
+          mouseX = this.cameras.main.getWorldPoint(pointer.x, pointer.y).x;
+          mouseY = this.cameras.main.getWorldPoint(pointer.x, pointer.y).y;
         player.setVelocityX(1600);
         player.setTexture('playerright');
         useEdge = cameraRightEdge;
         doingdir = "right";
+       
+    // Now mouseX and mouseY are correct even if the camera moves.
     } else {
         player.setVelocityX(0);
     }
@@ -359,7 +387,7 @@ update() {
         default: 'arcade',
         arcade: {
             gravity: { y: 600 },
-            debug: false // Enable debug to see collision boxes
+            debug: true // Enable debug to see collision boxes
         }
     },
     scene: [TitleScene, GameScene] 
